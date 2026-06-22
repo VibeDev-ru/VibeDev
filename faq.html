@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FAQ — VibeDev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .faq-search{position:relative;margin-bottom:20px}
+    .faq-search input{width:100%;padding:14px 20px 14px 48px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--text);font-family:var(--font-body);font-size:16px;font-weight:300;transition:var(--transition);outline:none}
+    .faq-search input:focus{border-color:rgba(96,165,250,0.3);box-shadow:0 8px 30px rgba(96,165,250,0.08)}
+    .faq-search .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+    .faq-search .clear-search{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted);cursor:pointer;opacity:0;transition:var(--transition)}
+    .faq-search .clear-search.visible{opacity:0.6}
+    .faq-search .clear-search:hover{opacity:1}
+    .faq-categories{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .faq-categories .cat-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:var(--transition);font-family:var(--font-accent);font-size:13px;letter-spacing:0.02em}
+    .faq-categories .cat-btn:hover{border-color:var(--accent-2);color:var(--text)}
+    .faq-categories .cat-btn.active{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#041018;border-color:transparent;font-weight:600}
+    .faq-item{border-bottom:1px solid var(--border);padding:16px 0;transition:var(--transition)}
+    .faq-item:last-child{border-bottom:none}
+    .faq-item.hidden{display:none}
+    .faq-item .faq-question{display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:4px 0;transition:var(--transition);gap:16px}
+    .faq-item .faq-question:hover{color:var(--accent-2)}
+    .faq-item .faq-question h3{font-size:17px;font-weight:600;margin:0;font-family:var(--font-body);letter-spacing:0.01em}
+    .faq-item .faq-question .faq-toggle{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.04);transition:var(--transition);font-size:18px;color:var(--muted)}
+    .faq-item .faq-question:hover .faq-toggle{background:rgba(96,165,250,0.1);color:var(--accent-2)}
+    .faq-item .faq-answer{max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s ease,padding 0.3s ease;opacity:0;padding:0}
+    .faq-item.open .faq-answer{max-height:300px;opacity:1;padding-top:12px}
+    .faq-item.open .faq-toggle{transform:rotate(180deg);background:rgba(96,165,250,0.1);color:var(--accent-2)}
+    .faq-item .faq-answer p{margin:0;color:var(--muted);font-weight:300;line-height:1.7;font-size:15px}
+    .faq-item .faq-tag{display:inline-block;margin-top:8px;padding:2px 10px;border-radius:12px;background:rgba(255,255,255,0.04);color:var(--muted);font-size:11px;font-family:var(--font-accent);letter-spacing:0.02em}
+    .no-results{text-align:center;padding:40px 20px;color:var(--muted);display:none}
+    .no-results.show{display:block}
+    .no-results .icon{font-size:48px;margin-bottom:12px;opacity:0.3}
+    .no-results p{font-weight:300}
+    .vibedev-tag{display:inline-block;padding:2px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));color:var(--accent-2);font-family:var(--font-accent);font-size:11px;letter-spacing:0.05em;text-transform:uppercase}
+    @media(max-width:600px){.faq-item .faq-question h3{font-size:15px}}
+  </style>
+</head>
+<body>
+  <div class="particles" aria-hidden="true">
+    <span style="--left:12vw;--size:30px;--delay:-4s;--dur:20s;--tx:50px;--scale:1.2;--color:rgba(110,231,183,0.12)"></span>
+    <span style="--left:50vw;--size:44px;--delay:-6s;--dur:28s;--tx:-60px;--scale:1.5;--color:rgba(96,165,250,0.1)"></span>
+    <span style="--left:80vw;--size:28px;--delay:-8s;--dur:24s;--tx:40px;--scale:1.1;--color:rgba(139,92,246,0.08)"></span>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <button id="menuBtnF" class="menu-button" aria-label="Меню">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+    </span>
+    <span class="menu-caption"><span class="menu-title">Меню</span><span class="menu-hint">нажмите для вызова меню</span></span>
+  </button>
+
+  <div id="menuOverlayF" class="bubble-overlay" aria-hidden="true">
+    <div class="bubble-panel" role="menu">
+      <a class="bubble-item" href="index.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div><span>Главная</span></a>
+      <a class="bubble-item" href="services.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84a.49.49 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.22 0 .43-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg></div><span>Услуги</span></a>
+      <a class="bubble-item" href="contact.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><span>Заявка</span></a>
+      <a class="bubble-item" href="reviews.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div><span>Отзывы</span></a>
+      <a class="bubble-item" href="faq.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><span>FAQ</span></a>
+    </div>
+  </div>
+
+  <div class="container" id="pageContainer">
+    <header>
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
+            <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg)"/>
+            <path d="M22 42v-8h8v8h-8zM36 20h8v24h-8V20z" fill="#041018"/>
+            <circle cx="32" cy="32" r="4" fill="#041018" opacity="0.3"/>
+            <text x="16" y="42" font-family="'Space Grotesk',monospace" font-weight="800" font-size="18" fill="#041018">V</text>
+          </svg>
+        </span>
+        <div>
+          <div class="brand-name">VibeDev</div>
+          <div class="brand-sub">Код с настроением</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="contact-header">
+          <div class="header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h2>Часто задаваемые вопросы</h2>
+          <span class="vibedev-tag" style="margin-left:auto">✦ VibeDev</span>
+        </div>
+        <p style="font-weight:300;letter-spacing:0.01em;color:var(--muted)">Ответы на самые популярные вопросы</p>
+
+        <div class="faq-search">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="faqSearch" placeholder="Поиск по вопросам..." autocomplete="off">
+          <span class="clear-search" id="clearSearch">✕</span>
+        </div>
+
+        <div class="faq-categories">
+          <button class="cat-btn active" data-category="all">Все</button>
+          <button class="cat-btn" data-category="prices">💰 Цены</button>
+          <button class="cat-btn" data-category="process">⚙️ Процесс</button>
+          <button class="cat-btn" data-category="terms">📅 Сроки</button>
+          <button class="cat-btn" data-category="tech">🛠 Технические</button>
+          <button class="cat-btn" data-category="other">📌 Другое</button>
+        </div>
+
+        <div id="faqList">
+          <div class="faq-item" data-category="prices">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Сколько стоят ваши услуги?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Стоимость зависит от сложности проекта и объема работ. Примерные цены:<br>• Сайт-визитка: от 15 000 ₽<br>• Telegram бот: от 12 000 ₽<br>• Курсовая работа: от 8 000 ₽<br>• Дизайн: от 5 000 ₽<br><br>Точную стоимость обсуждаем индивидуально после ознакомления с задачей. Используйте <a href="contact.html#calculator" style="color:var(--accent-2);text-decoration:none">калькулятор</a> для примерного расчета.</p><span class="faq-tag">💰 Цены</span></div>
+          </div>
+
+          <div class="faq-item" data-category="process">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Как происходит процесс работы?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>1. Вы оставляете заявку с описанием задачи<br>2. Мы обсуждаем детали в Telegram<br>3. Я готовлю ТЗ и оцениваю стоимость<br>4. Согласовываем сроки и начинаем работу<br>5. Вы получаете готовый результат + поддержку</p><span class="faq-tag">⚙️ Процесс</span></div>
+          </div>
+
+          <div class="faq-item" data-category="terms">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Какие сроки выполнения?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Сроки зависят от сложности:<br>• Простые проекты (сайт-визитка, простой бот): 3-5 дней<br>• Средние проекты (интернет-магазин, сложный бот): 7-14 дней<br>• Сложные проекты: от 2 недель<br><br>Возможно выполнение в срочном порядке (+40% к стоимости).</p><span class="faq-tag">📅 Сроки</span></div>
+          </div>
+
+          <div class="faq-item" data-category="tech">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Какие технологии вы используете?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Веб-разработка: HTML5, CSS3, JavaScript, Python (Flask/Django)<br>Боты: Python (Aiogram, PyTelegramBotAPI)<br>Дизайн: Figma, Photoshop, Illustrator<br><br>Всегда использую современные и проверенные технологии.</p><span class="faq-tag">🛠 Технические</span></div>
+          </div>
+
+          <div class="faq-item" data-category="prices">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Нужна предоплата?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Да, для крупных проектов требуется предоплата 30-50%. Для небольших заказов (до 10 000 ₽) работаем без предоплаты. Оплата принимается на карту или по договоренности.</p><span class="faq-tag">💰 Цены</span></div>
+          </div>
+
+          <div class="faq-item" data-category="process">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Предоставляете ли вы гарантию?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Да! Я предоставляю гарантию на все свои работы:<br>• Исправление багов бесплатно в течение 1 месяца<br>• Техническая поддержка 2 недели после сдачи<br>• Бесплатные правки по ТЗ (до сдачи)</p><span class="faq-tag">⚙️ Процесс</span></div>
+          </div>
+
+          <div class="faq-item" data-category="other">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Как с вами связаться?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Самый быстрый способ — <a href="https://t.me/uc3rnam3" target="_blank" style="color:var(--accent-2);text-decoration:none">Telegram @uc3rnam3</a><br>Также можно оставить заявку через <a href="contact.html" style="color:var(--accent-2);text-decoration:none">форму на сайте</a><br>Отвечаю обычно в течение 1-2 часов в рабочее время.</p><span class="faq-tag">📌 Другое</span></div>
+          </div>
+
+          <div class="faq-item" data-category="tech">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Можете помочь с защитой курсовой?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Да! Я помогаю с:<br>• Написанием текста работы<br>• Созданием презентации<br>• Подготовкой к защите<br>• Поиском материалов<br><br>Мои клиенты успешно защищаются на оценки 4 и 5.</p><span class="faq-tag">🛠 Технические</span></div>
+          </div>
+
+          <div class="faq-item" data-category="terms">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Можно ли срочно сделать проект?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Да, я беру срочные заказы. Стоимость увеличивается на 40% от базовой цены. Минимальный срок для срочного заказа — 24 часа для небольших проектов.</p><span class="faq-tag">📅 Сроки</span></div>
+          </div>
+
+          <div class="faq-item" data-category="prices">
+            <div class="faq-question" onclick="toggleFaq(this)"><h3>Есть ли скидки?</h3><span class="faq-toggle">▼</span></div>
+            <div class="faq-answer"><p>Да! Предоставляю скидки:<br>• 10% — постоянным клиентам<br>• 15% — при заказе комплексной услуги<br>• 20% — при повторном заказе в течение 3 месяцев<br><br>Следите за акциями в Telegram!</p><span class="faq-tag">💰 Цены</span></div>
+          </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+          <div class="icon">🔍</div>
+          <p>Ничего не найдено по вашему запросу</p>
+          <p style="font-size:13px">Попробуйте изменить поисковый запрос</p>
+        </div>
+
+        <div style="text-align:center;margin-top:24px">
+          <a class="order-btn" href="contact.html"><span>📩 Не нашли ответ? Создать заявку</span></a>
+          <div style="margin-top:12px">
+            <span class="vibedev-tag">✦ VibeDev</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:300;letter-spacing:0.02em">
+      <span style="font-family:var(--font-accent);font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
+    </footer>
+  </div>
+
+<script>
+const menuBtn = document.getElementById('menuBtnF');
+const menuOverlay = document.getElementById('menuOverlayF');
+const pageContainer = document.getElementById('pageContainer');
+if (menuBtn && menuOverlay && pageContainer) {
+    menuBtn.addEventListener('click', ()=>{ const open = menuOverlay.classList.toggle('open'); menuOverlay.setAttribute('aria-hidden', !open); pageContainer.classList.toggle('blurred', open); });
+    menuOverlay.addEventListener('click', (e)=>{ if(e.target === menuOverlay){ menuOverlay.classList.remove('open'); menuOverlay.setAttribute('aria-hidden','true'); pageContainer.classList.remove('blurred'); }});
+}
+
+function toggleFaq(element) {
+    const item = element.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(el => { if (el !== item) el.classList.remove('open'); });
+    if (wasOpen) { item.classList.remove('open'); } else { item.classList.add('open'); }
+}
+
+const searchInput = document.getElementById('faqSearch');
+const clearSearch = document.getElementById('clearSearch');
+const faqItems = document.querySelectorAll('.faq-item');
+const noResults = document.getElementById('noResults');
+
+searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    let found = false;
+    clearSearch.classList.toggle('visible', query.length > 0);
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+        const tags = item.querySelector('.faq-tag')?.textContent.toLowerCase() || '';
+        if (query === '' || question.includes(query) || answer.includes(query) || tags.includes(query)) {
+            item.classList.remove('hidden');
+            found = true;
+        } else {
+            item.classList.add('hidden');
+        }
+    });
+    noResults.classList.toggle('show', !found && query !== '');
+});
+
+clearSearch.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.focus();
+});
+
+const catBtns = document.querySelectorAll('.cat-btn');
+catBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        catBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const category = this.dataset.category;
+        faqItems.forEach(item => {
+            if (category === 'all' || item.dataset.category === category) {
+                item.classList.remove('hidden');
+            } else {
+                item.classList.add('hidden');
+            }
+        });
+        searchInput.value = '';
+        clearSearch.classList.remove('visible');
+        noResults.classList.remove('show');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const firstItem = document.querySelector('.faq-item');
+    if (firstItem) firstItem.classList.add('open');
+});
+</script>
+</body>
+</html>

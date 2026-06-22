@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Услуги — VibeDev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="particles" aria-hidden="true">
+    <span style="--left:6vw; --size:26px; --delay:-5s; --dur:22s; --tx:40px; --scale:1.1; --color:rgba(110,231,183,0.12)"></span>
+    <span style="--left:36vw; --size:48px; --delay:-3s; --dur:30s; --tx:-60px; --scale:1.6; --color:rgba(96,165,250,0.12)"></span>
+    <span style="--left:70vw; --size:34px; --delay:-7s; --dur:26s; --tx:50px; --scale:1.3; --color:rgba(139,92,246,0.08)"></span>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <button id="menuBtn" class="menu-button" aria-label="Меню">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+    </span>
+    <span class="menu-caption"><span class="menu-title">Меню</span><span class="menu-hint">нажмите для вызова меню</span></span>
+  </button>
+
+  <div id="menuOverlay" class="bubble-overlay" aria-hidden="true">
+    <div class="bubble-panel" role="menu">
+      <a class="bubble-item" href="index.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div>
+        <span>Главная</span>
+      </a>
+      <a class="bubble-item" href="services.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84a.49.49 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.22 0 .43-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg></div>
+        <span>Услуги</span>
+      </a>
+      <a class="bubble-item" href="contact.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        <span>Заявка</span>
+      </a>
+      <a class="bubble-item" href="reviews.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <span>Отзывы</span>
+      </a>
+      <a class="bubble-item" href="faq.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <span>FAQ</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="container" id="pageContainer">
+    <header>
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
+            <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg)"/>
+            <path d="M22 42v-8h8v8h-8zM36 20h8v24h-8V20z" fill="#041018"/>
+            <circle cx="32" cy="32" r="4" fill="#041018" opacity="0.3"/>
+            <text x="16" y="42" font-family="'Space Grotesk',monospace" font-weight="800" font-size="18" fill="#041018">V</text>
+          </svg>
+        </span>
+        <div>
+          <div class="brand-name">VibeDev</div>
+          <div class="brand-sub">Код с настроением</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Услуги VibeDev</h2>
+        <p class="muted" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          Прокрутите карточки колесом мыши или свайпом
+          <span class="scroll-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="7 13 12 18 17 13"/>
+              <polyline points="7 6 12 11 17 6"/>
+            </svg>
+            плавно
+          </span>
+        </p>
+
+        <div id="servicesScroll" class="services-scroll" tabindex="0" aria-label="Полоса услуг">
+          <div class="service-card">
+            <div class="content">
+              <div class="service-icon">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                  <line x1="8" y1="21" x2="16" y2="21"/>
+                  <line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+              </div>
+              <h3>Создание сайтов с 0 под ключ</h3>
+              <p class="muted">Анализ требований, дизайн, разработка, интеграции, деплой и поддержка.</p>
+            </div>
+            <div class="card-footer"><a class="order-btn" href="contact.html?service=Создание%20сайтов"><span>Создать заявку</span></a></div>
+          </div>
+
+          <div class="service-card">
+            <div class="content">
+              <div class="service-icon">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+              </div>
+              <h3>Написание курсовых, индивидуальных проектов</h3>
+              <p class="muted">Полный цикл: исследование, реализация и презентация.</p>
+            </div>
+            <div class="card-footer"><a class="order-btn" href="contact.html?service=Написание%20курсовых"><span>Создать заявку</span></a></div>
+          </div>
+
+          <div class="service-card">
+            <div class="content">
+              <div class="service-icon">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent-purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="4"/>
+                  <line x1="6" y1="9" x2="18" y2="9"/>
+                  <line x1="6" y1="15" x2="18" y2="15"/>
+                  <line x1="9" y1="9" x2="9" y2="20"/>
+                </svg>
+              </div>
+              <h3>Создание Telegram ботов</h3>
+              <p class="muted">Боты для приёма заявок, автопроцессов, интеграций.</p>
+            </div>
+            <div class="card-footer"><a class="order-btn" href="contact.html?service=Создание%20Telegram%20ботов"><span>Создать заявку</span></a></div>
+          </div>
+
+          <div class="service-card">
+            <div class="content">
+              <div class="service-icon">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#f472b6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h3>Создание баннеров, изображений, логотипов</h3>
+              <p class="muted">Графика для сайтов и соцсетей, логотипы, иллюстрации.</p>
+            </div>
+            <div class="card-footer"><a class="order-btn" href="contact.html?service=Дизайн%20баннеров"><span>Создать заявку</span></a></div>
+          </div>
+
+          <div class="service-card">
+            <div class="content">
+              <div class="service-icon">
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+              <h3>Спросить про услугу не указанную</h3>
+              <p class="muted">Опишите задачу — подготовлю предложение и оценку.</p>
+            </div>
+            <div class="card-footer"><a class="order-btn" href="contact.html?service=Другая%20услуга"><span>Создать заявку</span></a></div>
+          </div>
+        </div>
+
+        <div class="scroll-indicator" id="scrollIndicator">
+          <span class="scroll-dot active" data-index="0"></span>
+          <span class="scroll-dot" data-index="1"></span>
+          <span class="scroll-dot" data-index="2"></span>
+          <span class="scroll-dot" data-index="3"></span>
+          <span class="scroll-dot" data-index="4"></span>
+        </div>
+      </section>
+
+      <div style="margin-top:24px;text-align:center">
+        <a class="telegram" href="https://t.me/uc3rnam3" target="_blank" style="justify-content:center"><i class="fab fa-telegram"></i> Написать в Telegram</a>
+        <span style="display:block;margin-top:8px;font-family:var(--font-accent);font-size:12px;color:var(--muted);letter-spacing:0.05em">✦ VibeDev</span>
+      </div>
+    </main>
+
+    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:300;letter-spacing:0.02em">
+      <span style="font-family:var(--font-accent);font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
+    </footer>
+  </div>
+
+<script>
+const menuBtn = document.getElementById('menuBtn');
+const menuOverlay = document.getElementById('menuOverlay');
+const pageContainer = document.getElementById('pageContainer');
+menuBtn.addEventListener('click', ()=> {
+  const open = menuOverlay.classList.toggle('open');
+  menuOverlay.setAttribute('aria-hidden', !open);
+  pageContainer.classList.toggle('blurred', open);
+});
+menuOverlay.addEventListener('click', (e)=>{ if(e.target === menuOverlay){ menuOverlay.classList.remove('open'); menuOverlay.setAttribute('aria-hidden','true'); pageContainer.classList.remove('blurred'); }});
+
+const sc = document.getElementById('servicesScroll');
+const dots = document.querySelectorAll('.scroll-dot');
+if(sc){
+  let scrollTimeout;
+  sc.addEventListener('wheel', function(e){
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 1 : -1;
+    const cardWidth = sc.querySelector('.service-card').offsetWidth + 20;
+    const currentScroll = sc.scrollLeft;
+    const targetScroll = currentScroll + delta * cardWidth;
+    sc.scrollTo({ left: Math.max(0, Math.min(targetScroll, sc.scrollWidth - sc.clientWidth)), behavior: 'smooth' });
+  }, { passive: false });
+  sc.addEventListener('scroll', function(){
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const cardWidth = sc.querySelector('.service-card').offsetWidth + 20;
+      const index = Math.round(sc.scrollLeft / cardWidth);
+      dots.forEach((dot, i) => { dot.classList.toggle('active', i === index); });
+    }, 100);
+  });
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', function(){
+      const cardWidth = sc.querySelector('.service-card').offsetWidth + 20;
+      sc.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+    });
+  });
+}
+</script>
+</body>
+</html>

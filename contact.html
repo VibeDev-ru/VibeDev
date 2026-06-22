@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Заявка — VibeDev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .form-row{display:flex;gap:12px}
+    @media(max-width:760px){ .form-row{flex-direction:column} }
+    .note-small{font-size:13px;color:var(--muted);display:block;margin-bottom:4px;font-weight:400;letter-spacing:0.02em;font-family:var(--font-accent)}
+    
+    .field-wrapper{display:flex;align-items:center;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.04);transition:var(--transition);overflow:hidden}
+    .field-wrapper:focus-within{border-color:rgba(96,165,250,0.3);box-shadow:0 8px 30px rgba(96,165,250,0.08);transform:translateY(-2px)}
+    .field-wrapper .contact-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;margin:0 4px 0 8px;background:transparent}
+    .field-wrapper .contact-icon svg{width:20px;height:20px;stroke:var(--accent-2)}
+    .field-wrapper .contact-icon.purple svg{stroke:var(--accent-purple)}
+    .field-wrapper .contact-icon.green svg{stroke:var(--accent)}
+    .field-wrapper .fancy-input,.field-wrapper .fancy-textarea{border:none;background:transparent;box-shadow:none;padding:12px 14px 12px 4px;width:100%;color:var(--text);outline:none;font-family:var(--font-body);font-weight:300;letter-spacing:0.01em;font-size:15px}
+    .field-wrapper .fancy-input:focus,.field-wrapper .fancy-textarea:focus{transform:none;box-shadow:none}
+    .field-wrapper .fancy-textarea{resize:vertical;min-height:80px}
+    .field-wrapper .fancy-input::placeholder,.field-wrapper .fancy-textarea::placeholder{font-weight:300;color:rgba(156,163,175,0.5)}
+
+    .contact-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .contact-header h2{margin:0}
+    .contact-header .header-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));flex-shrink:0}
+
+    .form-progress{display:flex;gap:8px;margin-bottom:20px;align-items:center}
+    .form-progress .step{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--font-accent);letter-spacing:0.02em;opacity:0.4;transition:var(--transition)}
+    .form-progress .step.active{opacity:1;color:var(--accent-2)}
+    .form-progress .step.done{opacity:0.7;color:var(--accent)}
+    .form-progress .step-line{flex:1;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;position:relative;overflow:hidden}
+    .form-progress .step-line .fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:2px;transition:width 0.6s ease;width:0%}
+    .form-progress .step .step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.04);font-size:11px;font-weight:700;transition:var(--transition)}
+    .form-progress .step.active .step-num{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#041018}
+    .form-progress .step.done .step-num{background:rgba(110,231,183,0.15);color:var(--accent)}
+
+    .field-group{animation:slideInUp 0.5s ease forwards;opacity:0}
+    .field-group:nth-child(1){animation-delay:0.1s}
+    .field-group:nth-child(2){animation-delay:0.2s}
+    .field-group:nth-child(3){animation-delay:0.3s}
+    .field-group:nth-child(4){animation-delay:0.4s}
+    .field-group:nth-child(5){animation-delay:0.5s}
+
+    .smart-hint{font-size:12px;color:var(--muted);font-weight:300;margin-top:4px;padding-left:52px;opacity:0;transition:var(--transition);font-family:var(--font-body);letter-spacing:0.01em}
+    .smart-hint.visible{opacity:0.6}
+    .smart-hint.success{color:var(--accent);opacity:0.8}
+
+    .service-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}
+    .service-option{padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);text-align:center;font-size:13px;font-family:var(--font-accent);letter-spacing:0.01em;color:var(--muted)}
+    .service-option:hover{border-color:rgba(96,165,250,0.2);background:rgba(255,255,255,0.04);transform:translateY(-2px)}
+    .service-option.active{border-color:var(--accent-2);background:rgba(96,165,250,0.08);color:var(--text)}
+    .service-option .opt-icon{display:block;font-size:24px;margin-bottom:4px}
+
+    .submission-item{display:flex;gap:12px;align-items:flex-start;padding:14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);transition:var(--transition)}
+    .submission-item:hover{transform:translateX(6px);border-color:rgba(96,165,250,0.15);background:rgba(255,255,255,0.03)}
+    .submission-icon{flex-shrink:0;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(96,165,250,0.08);color:var(--accent-2)}
+    .submission-content{flex:1;min-width:0}
+    .submission-content .submission-title{font-weight:600;color:var(--text);font-size:14px;font-family:var(--font-accent)}
+    .submission-content .submission-meta{font-size:12px;color:var(--muted);font-weight:300}
+    .submission-content .submission-text{margin-top:4px;font-size:13px;color:var(--muted);word-break:break-word;font-weight:300}
+
+    .calc-option{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:var(--transition);font-family:var(--font-accent);font-size:13px;letter-spacing:0.02em}
+    .calc-option:hover{border-color:rgba(96,165,250,0.2);color:var(--text)}
+    .calc-option.active{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#041018;border-color:transparent;font-weight:600}
+    .calc-check{accent-color:var(--accent-2);width:16px;height:16px;cursor:pointer}
+    
+    .vibedev-tag{display:inline-block;padding:2px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));color:var(--accent-2);font-family:var(--font-accent);font-size:11px;letter-spacing:0.05em;text-transform:uppercase}
+
+    .discount-section{background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.15);border-radius:12px;padding:16px 20px;margin-top:12px}
+    .discount-section .discount-title{font-family:var(--font-accent);font-weight:600;font-size:14px;color:#fbbf24;display:flex;align-items:center;gap:8px}
+    .discount-section .discount-input{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    .discount-section .discount-input input{width:80px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--text);font-family:var(--font-accent);font-size:14px;text-align:center;outline:none;transition:var(--transition)}
+    .discount-section .discount-input input:focus{border-color:rgba(251,191,36,0.3);box-shadow:0 0 20px rgba(251,191,36,0.05)}
+    .discount-section .discount-input input::-webkit-outer-spin-button,
+    .discount-section .discount-input input::-webkit-inner-spin-button{-webkit-appearance:none}
+    .discount-section .discount-input input[type=number]{-moz-appearance:textfield}
+    .discount-section .discount-input .discount-label{font-size:13px;color:var(--muted);font-weight:300}
+    .discount-section .discount-input .discount-result{font-family:var(--font-accent);font-weight:700;font-size:16px;color:#fbbf24}
+    .discount-section .discount-info{font-size:12px;color:var(--muted);font-weight:300;margin-top:6px}
+    .discount-section .discount-info strong{color:#fbbf24}
+  </style>
+</head>
+<body>
+  <div class="particles" aria-hidden="true">
+    <span style="--left:10vw; --size:30px; --delay:-4s; --dur:20s; --tx:50px; --scale:1.2; --color:rgba(110,231,183,0.12)"></span>
+    <span style="--left:45vw; --size:42px; --delay:-6s; --dur:28s; --tx:-70px; --scale:1.5; --color:rgba(96,165,250,0.1)"></span>
+    <span style="--left:80vw; --size:28px; --delay:-8s; --dur:24s; --tx:40px; --scale:1.1; --color:rgba(139,92,246,0.08)"></span>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <button id="menuBtnC" class="menu-button" aria-label="Меню">
+    <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+    </span>
+    <span class="menu-caption"><span class="menu-title">Меню</span><span class="menu-hint">нажмите для вызова меню</span></span>
+  </button>
+
+  <div id="menuOverlayC" class="bubble-overlay" aria-hidden="true">
+    <div class="bubble-panel" role="menu">
+      <a class="bubble-item" href="index.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div>
+        <span>Главная</span>
+      </a>
+      <a class="bubble-item" href="services.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84a.49.49 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.22 0 .43-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg></div>
+        <span>Услуги</span>
+      </a>
+      <a class="bubble-item" href="contact.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        <span>Заявка</span>
+      </a>
+      <a class="bubble-item" href="reviews.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <span>Отзывы</span>
+      </a>
+      <a class="bubble-item" href="faq.html">
+        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <span>FAQ</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="container" id="pageContainer">
+    <header>
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
+            <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg)"/>
+            <path d="M22 42v-8h8v8h-8zM36 20h8v24h-8V20z" fill="#041018"/>
+            <circle cx="32" cy="32" r="4" fill="#041018" opacity="0.3"/>
+            <text x="16" y="42" font-family="'Space Grotesk',monospace" font-weight="800" font-size="18" fill="#041018">V</text>
+          </svg>
+        </span>
+        <div>
+          <div class="brand-name">VibeDev</div>
+          <div class="brand-sub">Код с настроением</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="card">
+        <div class="contact-header">
+          <div class="header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2L11 13"/>
+              <path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+            </svg>
+          </div>
+          <h2>Создать заявку</h2>
+          <span class="vibedev-tag" style="margin-left:auto">✦ VibeDev</span>
+        </div>
+        <p style="font-weight:300;letter-spacing:0.01em;color:var(--muted)">Заполните форму — заявка отправится в Telegram и сохранится локально</p>
+
+        <div class="form-progress" id="formProgress">
+          <div class="step active" data-step="1"><span class="step-num">1</span><span>Услуга</span></div>
+          <div class="step-line"><div class="fill" id="progressFill"></div></div>
+          <div class="step" data-step="2"><span class="step-num">2</span><span>Контакты</span></div>
+          <div class="step-line"><div class="fill" id="progressFill2"></div></div>
+          <div class="step" data-step="3"><span class="step-num">3</span><span>Описание</span></div>
+        </div>
+
+        <form id="requestForm" style="margin-top:16px">
+          <div class="field-group">
+            <label class="note-small">Выберите услугу</label>
+            <div class="service-options" id="serviceOptions">
+              <div class="service-option" data-service="Создание сайтов"><span class="opt-icon">🖥</span>Создание сайтов</div>
+              <div class="service-option" data-service="Курсовые работы"><span class="opt-icon">📚</span>Курсовые работы</div>
+              <div class="service-option" data-service="Telegram боты"><span class="opt-icon">🤖</span>Telegram боты</div>
+              <div class="service-option" data-service="Дизайн"><span class="opt-icon">🎨</span>Дизайн</div>
+              <div class="service-option" data-service="Другое"><span class="opt-icon">💡</span>Другое</div>
+            </div>
+            <input type="hidden" id="service" value="">
+            <div class="smart-hint" id="serviceHint">Выберите интересующую услугу</div>
+          </div>
+
+          <div class="form-row" style="margin-top:16px">
+            <div style="flex:1" class="field-group">
+              <label class="note-small">Ваше имя</label>
+              <div class="field-wrapper">
+                <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <input id="name" class="fancy-input" placeholder="Как к вам обращаться?" required>
+              </div>
+              <div class="smart-hint" id="nameHint">Например: Александр</div>
+            </div>
+            <div style="flex:1" class="field-group">
+              <label class="note-small">Telegram</label>
+              <div class="field-wrapper">
+                <div class="contact-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+                <input id="contact" class="fancy-input" placeholder="@username" required>
+              </div>
+              <div class="smart-hint" id="contactHint">Укажите ваш Telegram для связи</div>
+            </div>
+          </div>
+
+          <div class="field-group" style="margin-top:16px">
+            <label class="note-small">Описание задачи</label>
+            <div class="field-wrapper">
+              <div class="contact-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <textarea id="msg" class="fancy-textarea" placeholder="Опишите подробнее, что нужно сделать..." rows="4"></textarea>
+            </div>
+            <div class="smart-hint" id="msgHint">Чем подробнее — тем точнее будет оценка</div>
+          </div>
+
+          <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+            <button class="submit-btn" id="sendBtn" type="submit"><span>📤 Отправить заявку</span></button>
+            <button class="clear-btn" id="resetBtn" type="button"><span class="clear-icon">✕</span><span class="clear-text">Очистить</span></button>
+            <a class="telegram" href="https://t.me/uc3rnam3" target="_blank" style="margin-left:auto"><i class="fab fa-telegram"></i> Написать в Telegram</a>
+          </div>
+        </form>
+
+        <!-- КАЛЬКУЛЯТОР СТОИМОСТИ -->
+        <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--border)">
+          <div class="contact-header">
+            <div class="header-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h2 style="font-size:24px">Калькулятор стоимости</h2>
+            <span class="vibedev-tag" style="margin-left:auto">✦ VibeDev</span>
+          </div>
+          <p style="font-weight:300;letter-spacing:0.01em;color:var(--muted);margin-bottom:16px">Выберите параметры и получите примерную стоимость проекта</p>
+
+          <div id="calculator" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div style="grid-column:1/-1">
+              <label class="note-small">Тип услуги</label>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+                <button class="calc-option active" data-value="site" data-price="15000">🌐 Сайт</button>
+                <button class="calc-option" data-value="bot" data-price="12000">🤖 Telegram бот</button>
+                <button class="calc-option" data-value="course" data-price="8000">📚 Курсовая/ИП</button>
+                <button class="calc-option" data-value="design" data-price="5000">🎨 Дизайн</button>
+                <button class="calc-option" data-value="other" data-price="10000">💡 Другое</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="note-small">Сложность</label>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                <button class="calc-option active" data-value="easy" data-multiplier="1">🟢 Лёгкая</button>
+                <button class="calc-option" data-value="medium" data-multiplier="1.5">🟡 Средняя</button>
+                <button class="calc-option" data-value="hard" data-multiplier="2.5">🔴 Сложная</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="note-small">Сроки</label>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
+                <button class="calc-option active" data-value="normal" data-multiplier="1">📅 Обычные</button>
+                <button class="calc-option" data-value="urgent" data-multiplier="1.4">⚡ Срочно (+40%)</button>
+              </div>
+            </div>
+
+            <!-- Дополнительные услуги (динамические) -->
+            <div style="grid-column:1/-1" id="extrasContainer">
+              <label class="note-small">Дополнительные услуги</label>
+              <div id="extrasList" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">
+                <!-- Заполняется через JS -->
+              </div>
+            </div>
+
+            <!-- СКИДКА -->
+            <div style="grid-column:1/-1">
+              <div class="discount-section">
+                <div class="discount-title">🎯 Приведи друга — получи скидку!</div>
+                <div class="discount-input">
+                  <span class="discount-label">Количество приведенных людей:</span>
+                  <input type="number" id="discountPeople" min="0" max="6" value="0">
+                  <span class="discount-label">=</span>
+                  <span class="discount-result" id="discountDisplay">0%</span>
+                  <span class="discount-label">скидка</span>
+                </div>
+                <div class="discount-info">
+                  <strong>10%</strong> за каждого человека · Максимальная скидка <strong>60%</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Результат -->
+            <div style="grid-column:1/-1;background:rgba(255,255,255,0.02);border-radius:12px;padding:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+              <div>
+                <div style="font-size:13px;color:var(--muted);font-weight:300">Примерная стоимость</div>
+                <div style="font-family:var(--font-heading);font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="totalPrice">15 000 ₽</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:300" id="discountInfo">Скидка: 0%</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:300" id="calcDetails"></div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="order-btn" id="calcOrderBtn" style="padding:14px 28px"><span>📩 Отправить заявку</span></button>
+                <button class="clear-btn" id="calcResetBtn" type="button" style="padding:14px 20px"><span class="clear-icon">↻</span><span class="clear-text">Сбросить</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:28px">
+          <h3 style="display:flex;align-items:center;gap:8px;font-size:20px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            Отправленные заявки
+            <span style="font-size:13px;font-weight:300;color:var(--muted);font-family:var(--font-body)" id="submissionCount"></span>
+          </h3>
+          <div id="submissions" class="submissions"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:300;letter-spacing:0.02em">
+      <span style="font-family:var(--font-accent);font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
+    </footer>
+  </div>
+
+<script>
+// Меню
+const menuBtnC = document.getElementById('menuBtnC');
+const menuOverlayC = document.getElementById('menuOverlayC');
+const pageContainer = document.getElementById('pageContainer');
+if (menuBtnC && menuOverlayC && pageContainer) {
+    menuBtnC.addEventListener('click', ()=>{ const open = menuOverlayC.classList.toggle('open'); menuOverlayC.setAttribute('aria-hidden', !open); pageContainer.classList.toggle('blurred', open); });
+    menuOverlayC.addEventListener('click', (e)=>{ if(e.target === menuOverlayC){ menuOverlayC.classList.remove('open'); menuOverlayC.setAttribute('aria-hidden','true'); pageContainer.classList.remove('blurred'); }});
+}
+
+// Умная форма
+const serviceOptions = document.querySelectorAll('.service-option');
+const serviceInput = document.getElementById('service');
+const serviceHint = document.getElementById('serviceHint');
+serviceOptions.forEach(opt => {
+    opt.addEventListener('click', function() {
+        serviceOptions.forEach(o => o.classList.remove('active'));
+        this.classList.add('active');
+        serviceInput.value = this.dataset.service;
+        serviceHint.textContent = '✅ Выбрано: ' + this.dataset.service;
+        serviceHint.className = 'smart-hint visible success';
+        updateProgress();
+        updateExtras();
+        updatePrice();
+    });
+});
+
+const nameInput = document.getElementById('name');
+const contactInput = document.getElementById('contact');
+const msgInput = document.getElementById('msg');
+const nameHint = document.getElementById('nameHint');
+const contactHint = document.getElementById('contactHint');
+const msgHint = document.getElementById('msgHint');
+
+nameInput.addEventListener('focus', () => { nameHint.className = 'smart-hint visible'; });
+nameInput.addEventListener('blur', () => {
+    if (nameInput.value.length > 2) { nameHint.textContent = '✅ Отлично!'; nameHint.className = 'smart-hint visible success'; }
+    else { nameHint.textContent = 'Введите имя (минимум 2 символа)'; nameHint.className = 'smart-hint visible'; }
+});
+nameInput.addEventListener('input', updateProgress);
+
+contactInput.addEventListener('focus', () => { contactHint.className = 'smart-hint visible'; });
+contactInput.addEventListener('blur', () => {
+    if (contactInput.value.startsWith('@') && contactInput.value.length > 2) {
+        contactHint.textContent = '✅ Отлично!';
+        contactHint.className = 'smart-hint visible success';
+    } else {
+        contactHint.textContent = 'Укажите Telegram username с @';
+        contactHint.className = 'smart-hint visible';
+    }
+});
+contactInput.addEventListener('input', updateProgress);
+
+msgInput.addEventListener('focus', () => { msgHint.className = 'smart-hint visible'; });
+msgInput.addEventListener('blur', () => {
+    if (msgInput.value.length > 10) { msgHint.textContent = '✅ Отлично, подробно!'; msgHint.className = 'smart-hint visible success'; }
+    else { msgHint.textContent = 'Опишите задачу подробнее (минимум 10 символов)'; msgHint.className = 'smart-hint visible'; }
+});
+msgInput.addEventListener('input', updateProgress);
+
+function updateProgress() {
+    const steps = document.querySelectorAll('.step');
+    const fills = document.querySelectorAll('.step-line .fill');
+    let filled = 0;
+    if (serviceInput.value) filled++;
+    if (nameInput.value.length > 2) filled++;
+    if (contactInput.value.startsWith('@') && contactInput.value.length > 2) filled++;
+    if (msgInput.value.length > 10) filled++;
+    const progress = (filled / 4) * 100;
+    fills.forEach(fill => { fill.style.width = Math.min(progress, 100) + '%'; });
+    steps.forEach((step, index) => {
+        step.classList.remove('active', 'done');
+        if (index < filled) step.classList.add('done');
+        if (index === filled) step.classList.add('active');
+    });
+}
+
+// Заявки
+function qs(name){ const u=new URLSearchParams(location.search); return u.get(name) || ''; }
+function saveSubmission(obj){ const key='site_submissions_vadim'; const arr=JSON.parse(localStorage.getItem(key)||'[]'); arr.unshift(obj); localStorage.setItem(key,JSON.stringify(arr.slice(0,100))); }
+function loadSubmissions(){ return JSON.parse(localStorage.getItem('site_submissions_vadim')||'[]'); }
+function renderSubmissions(){
+  const node=document.getElementById('submissions');
+  const count = document.getElementById('submissionCount');
+  node.innerHTML='';
+  const arr=loadSubmissions();
+  count.textContent = arr.length ? '('+arr.length+')' : '';
+  if(arr.length===0){ node.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;font-weight:300">Заявок пока нет</div>'; return; }
+  for(const s of arr){
+    const el=document.createElement('div');
+    el.className='submission-item';
+    el.innerHTML='<div class="submission-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></div><div class="submission-content"><div class="submission-title">'+(s.name||'Без имени')+'</div><div class="submission-meta">'+(s.service||'Без услуги')+' · '+(s.ts||'')+'</div><div class="submission-text">'+(s.msg||'')+'</div></div>';
+    node.appendChild(el);
+  }
+}
+
+// КАЛЬКУЛЯТОР
+const calcOptions = document.querySelectorAll('.calc-option');
+const totalPriceEl = document.getElementById('totalPrice');
+const discountInfo = document.getElementById('discountInfo');
+const calcDetails = document.getElementById('calcDetails');
+const discountPeople = document.getElementById('discountPeople');
+const discountDisplay = document.getElementById('discountDisplay');
+
+let selectedService = { price: 15000, value: 'site', label: 'Сайт' };
+let selectedComplexity = { multiplier: 1, label: 'Лёгкая' };
+let selectedUrgency = { multiplier: 1, label: 'Обычные' };
+let extras = 0;
+let currentDiscount = 0;
+let selectedExtrasList = [];
+
+// Дополнительные услуги
+const extrasData = {
+    site: [
+        { id: 'adaptive', label: 'Адаптив', price: 3000 },
+        { id: 'admin', label: 'Админ-панель', price: 5000 },
+        { id: 'seo', label: 'SEO-оптимизация', price: 4000 },
+        { id: 'support', label: 'Поддержка 1 мес', price: 2000 }
+    ],
+    course: [
+        { id: 'legal', label: 'Юридические темы', price: 0, percent: 25 },
+        { id: 'medical', label: 'Медицинские темы', price: 0, percent: 30 }
+    ],
+    bot: [
+        { id: 'admin_panel', label: 'Админ-панель', price: 4000 },
+        { id: 'analytics', label: 'Аналитика', price: 3000 },
+        { id: 'support', label: 'Поддержка 1 мес', price: 2000 }
+    ],
+    design: [
+        { id: 'source', label: 'Исходники (PSD/Figma)', price: 2000 },
+        { id: 'brandbook', label: 'Брендбук', price: 4000 },
+        { id: 'adaptation', label: 'Адаптация под соцсети', price: 2500 }
+    ],
+    other: [
+        { id: 'consultation', label: 'Консультация', price: 2000 },
+        { id: 'support', label: 'Поддержка 1 мес', price: 2000 }
+    ]
+};
+
+let selectedExtras = {};
+
+function updateExtras() {
+    const container = document.getElementById('extrasList');
+    container.innerHTML = '';
+    selectedExtras = {};
+    selectedExtrasList = [];
+    
+    const serviceValue = document.querySelector('.calc-option.active[data-price]')?.dataset.value || 'site';
+    const extras = extrasData[serviceValue] || [];
+    
+    if (extras.length === 0) {
+        container.innerHTML = '<span style="color:var(--muted);font-size:13px;font-weight:300">Нет дополнительных услуг для этого типа</span>';
+        return;
+    }
+    
+    extras.forEach(extra => {
+        const label = document.createElement('label');
+        label.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;color:var(--muted)';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'calc-check';
+        checkbox.dataset.id = extra.id;
+        checkbox.dataset.price = extra.price || 0;
+        checkbox.dataset.percent = extra.percent || 0;
+        checkbox.dataset.label = extra.label;
+        checkbox.value = extra.id;
+        
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                selectedExtras[extra.id] = { price: extra.price || 0, percent: extra.percent || 0, label: extra.label };
+            } else {
+                delete selectedExtras[extra.id];
+            }
+            updatePrice();
+        });
+        
+        let labelText = extra.label;
+        if (extra.percent) {
+            labelText += ` (+${extra.percent}%)`;
+        } else if (extra.price) {
+            labelText += ` (+${extra.price.toLocaleString()}₽)`;
+        }
+        
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(labelText));
+        container.appendChild(label);
+    });
+}
+
+function getSelectedExtrasList() {
+    const list = [];
+    for (const key in selectedExtras) {
+        const extra = selectedExtras[key];
+        if (extra.percent) {
+            list.push(extra.label + ' (+' + extra.percent + '%)');
+        } else if (extra.price) {
+            list.push(extra.label + ' (+' + extra.price.toLocaleString() + '₽)');
+        }
+    }
+    return list;
+}
+
+function updatePrice() {
+    let basePrice = selectedService.price || 15000;
+    let total = basePrice * (selectedComplexity.multiplier || 1) * (selectedUrgency.multiplier || 1);
+    
+    // Дополнительные услуги (проценты и фиксированная цена)
+    let extraTotal = 0;
+    let extraPercent = 0;
+    let extrasDetails = [];
+    
+    for (const key in selectedExtras) {
+        const extra = selectedExtras[key];
+        if (extra.percent) {
+            extraPercent += extra.percent;
+            extrasDetails.push(extra.label + ' (+' + extra.percent + '%)');
+        } else if (extra.price) {
+            extraTotal += extra.price;
+            extrasDetails.push(extra.label + ' (+' + extra.price.toLocaleString() + '₽)');
+        }
+    }
+    
+    // Применяем процентные надбавки к базовой цене
+    total = total * (1 + extraPercent / 100);
+    total += extraTotal;
+    
+    // Скидка
+    let people = parseInt(discountPeople.value) || 0;
+    if (people < 0) people = 0;
+    if (people > 6) people = 6;
+    discountPeople.value = people;
+    
+    currentDiscount = Math.min(people * 10, 60);
+    discountDisplay.textContent = currentDiscount + '%';
+    
+    // Применяем скидку
+    const finalTotal = total * (1 - currentDiscount / 100);
+    
+    totalPriceEl.textContent = Math.round(finalTotal).toLocaleString('ru-RU') + ' ₽';
+    discountInfo.textContent = currentDiscount > 0 ? 'Скидка: ' + currentDiscount + '%' : 'Скидка: 0%';
+    
+    // Детали для отправки
+    let details = selectedService.label + ' | ' + selectedComplexity.label + ' | ' + selectedUrgency.label;
+    if (extrasDetails.length > 0) {
+        details += ' | Доп: ' + extrasDetails.join(', ');
+    }
+    if (currentDiscount > 0) {
+        details += ' | Скидка: ' + currentDiscount + '%';
+    }
+    calcDetails.textContent = details;
+}
+
+// Обработчики калькулятора
+calcOptions.forEach(opt => {
+    opt.addEventListener('click', function() {
+        const parent = this.closest('div');
+        const siblings = parent.querySelectorAll('.calc-option');
+        siblings.forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+        
+        if (this.dataset.price) {
+            selectedService = { 
+                price: parseInt(this.dataset.price), 
+                value: this.dataset.value,
+                label: this.textContent.trim()
+            };
+            updateExtras();
+        }
+        if (this.dataset.multiplier) {
+            const isComplexity = ['easy','medium','hard'].includes(this.dataset.value);
+            if (isComplexity) { 
+                selectedComplexity.multiplier = parseFloat(this.dataset.multiplier);
+                selectedComplexity.label = this.textContent.trim();
+            } else { 
+                selectedUrgency.multiplier = parseFloat(this.dataset.multiplier);
+                selectedUrgency.label = this.textContent.trim();
+            }
+        }
+        updatePrice();
+    });
+});
+
+// Скидка
+discountPeople.addEventListener('input', function() {
+    let val = parseInt(this.value) || 0;
+    if (val < 0) val = 0;
+    if (val > 6) val = 6;
+    this.value = val;
+    updatePrice();
+});
+
+// Сброс калькулятора
+document.getElementById('calcResetBtn')?.addEventListener('click', function() {
+    document.querySelectorAll('.calc-option').forEach(opt => opt.classList.remove('active'));
+    document.querySelectorAll('.calc-option[data-value="site"]').forEach(opt => opt.classList.add('active'));
+    document.querySelectorAll('.calc-option[data-value="easy"]').forEach(opt => opt.classList.add('active'));
+    document.querySelectorAll('.calc-option[data-value="normal"]').forEach(opt => opt.classList.add('active'));
+    document.querySelectorAll('.calc-check').forEach(check => check.checked = false);
+    selectedService = { price: 15000, value: 'site', label: '🌐 Сайт' };
+    selectedComplexity = { multiplier: 1, label: '🟢 Лёгкая' };
+    selectedUrgency = { multiplier: 1, label: '📅 Обычные' };
+    selectedExtras = {};
+    discountPeople.value = 0;
+    currentDiscount = 0;
+    discountDisplay.textContent = '0%';
+    updateExtras();
+    updatePrice();
+    this.style.transform = 'rotate(360deg)';
+    setTimeout(() => { this.style.transform = 'rotate(0deg)'; }, 500);
+});
+
+// Кнопка "Отправить заявку" из калькулятора
+document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
+    const total = totalPriceEl.textContent;
+    const serviceName = selectedService.label || 'Сайт';
+    const complexity = selectedComplexity.label || 'Средняя';
+    const urgency = selectedUrgency.label || 'Обычные';
+    const discount = currentDiscount || 0;
+    const extrasList = getSelectedExtrasList().join(', ') || 'Нет';
+    const people = parseInt(discountPeople.value) || 0;
+    
+    // Заполняем форму данными из калькулятора
+    const serviceInput = document.getElementById('service');
+    const msgInput = document.getElementById('msg');
+    const nameInput = document.getElementById('name');
+    const contactInput = document.getElementById('contact');
+    
+    // Если форма не заполнена, подставляем данные
+    if (!serviceInput.value) {
+        // Находим и активируем соответствующий option
+        const serviceNameClean = serviceName.replace(/[🌐🤖📚🎨💡]\s*/, '').trim();
+        serviceOptions.forEach(opt => {
+            if (opt.dataset.service.includes(serviceNameClean) || serviceNameClean.includes(opt.dataset.service)) {
+                opt.click();
+            }
+        });
+    }
+    
+    // Добавляем детали калькулятора в описание
+    let calcText = '';
+    if (msgInput.value) {
+        calcText = msgInput.value + '\n\n--- Данные из калькулятора ---\n';
+    } else {
+        calcText = '--- Данные из калькулятора ---\n';
+    }
+    calcText += '📊 Услуга: ' + serviceName + '\n';
+    calcText += '📈 Сложность: ' + complexity + '\n';
+    calcText += '⏱ Сроки: ' + urgency + '\n';
+    if (extrasList !== 'Нет') {
+        calcText += '➕ Дополнительно: ' + extrasList + '\n';
+    }
+    if (discount > 0) {
+        calcText += '🎯 Скидка: ' + discount + '% (приведено ' + people + ' чел.)\n';
+    }
+    calcText += '💰 Итоговая стоимость: ' + total + '\n';
+    calcText += '---\n\n';
+    if (msgInput.value) {
+        calcText += msgInput.value;
+    }
+    msgInput.value = calcText;
+    
+    // Прокручиваем к форме
+    document.getElementById('requestForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // Подсвечиваем поля
+    const fields = ['service', 'name', 'contact', 'msg'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.borderColor = 'rgba(96,165,250,0.3)';
+            setTimeout(() => { el.style.borderColor = ''; }, 2000);
+        }
+    });
+    
+    // Обновляем подсказки
+    serviceHint.textContent = '✅ Данные из калькулятора добавлены!';
+    serviceHint.className = 'smart-hint visible success';
+    msgHint.textContent = '✅ Данные калькулятора добавлены в описание!';
+    msgHint.className = 'smart-hint visible success';
+    
+    // Активируем кнопку отправки
+    const sendBtn = document.getElementById('sendBtn');
+    sendBtn.style.transform = 'scale(1.05)';
+    sendBtn.style.boxShadow = '0 0 30px rgba(96,165,250,0.3)';
+    setTimeout(() => {
+        sendBtn.style.transform = '';
+        sendBtn.style.boxShadow = '';
+    }, 1000);
+});
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  const pre=decodeURIComponent(qs('service')||'');
+  if(pre) {
+    serviceInput.value = pre;
+    serviceOptions.forEach(o => { if(o.dataset.service === pre) o.classList.add('active'); });
+    serviceHint.textContent = '✅ Выбрано: '+pre;
+    serviceHint.className = 'smart-hint visible success';
+  }
+  renderSubmissions();
+  updateProgress();
+  updateExtras();
+  updatePrice();
+
+  const form=document.getElementById('requestForm');
+  form.addEventListener('submit',(e)=>{ 
+    e.preventDefault();
+    if(!serviceInput.value) { serviceHint.textContent = '⚠️ Выберите услугу!'; serviceHint.className = 'smart-hint visible'; return; }
+    if(nameInput.value.length < 2) { nameHint.textContent = '⚠️ Введите имя!'; nameHint.className = 'smart-hint visible'; return; }
+    if(!contactInput.value.startsWith('@') || contactInput.value.length < 3) { contactHint.textContent = '⚠️ Укажите Telegram!'; contactHint.className = 'smart-hint visible'; return; }
+    if(msgInput.value.length < 10) { msgHint.textContent = '⚠️ Опишите задачу подробнее!'; msgHint.className = 'smart-hint visible'; return; }
+    const service=serviceInput.value.trim();
+    const name=nameInput.value.trim();
+    const contact=contactInput.value.trim();
+    const msg=msgInput.value.trim();
+    const now=new Date();
+    const ts=now.toLocaleString('ru-RU',{dateStyle:'short',timeStyle:'short'});
+    const discount = currentDiscount || 0;
+    const people = parseInt(discountPeople.value) || 0;
+    const calcData = calcDetails.textContent || '';
+    
+    let text = '📩 *Новая заявка VibeDev*\n';
+    text += '🕒 ' + ts + '\n';
+    text += '────────────\n';
+    text += '👤 ' + name + '\n';
+    text += '✉️ ' + contact + '\n';
+    text += '🔧 Услуга: ' + service + '\n';
+    if (calcData) {
+        text += '📊 Калькулятор: ' + calcData + '\n';
+    }
+    if (discount > 0) {
+        text += '🎯 Скидка: ' + discount + '% (приведено ' + people + ' чел.)\n';
+    }
+    text += '────────────\n\n';
+    text += '📝 ' + msg + '\n\n';
+    text += 'Источник: VibeDev';
+    
+    saveSubmission({service,name,contact,msg,ts});
+    renderSubmissions();
+    window.open('https://t.me/uc3rnam3?text='+encodeURIComponent(text),'_blank');
+    updateProgress();
+  });
+
+  const resetBtn = document.getElementById('resetBtn');
+  resetBtn.addEventListener('click',()=>{ 
+    resetBtn.style.transform = 'scale(0.9)';
+    setTimeout(() => { resetBtn.style.transform = 'scale(1)'; }, 150);
+    document.getElementById('requestForm').reset();
+    serviceInput.value = '';
+    serviceOptions.forEach(o => o.classList.remove('active'));
+    serviceHint.textContent = 'Выберите интересующую услугу';
+    serviceHint.className = 'smart-hint';
+    nameHint.textContent = 'Например: Александр';
+    nameHint.className = 'smart-hint';
+    contactHint.textContent = 'Укажите ваш Telegram для связи';
+    contactHint.className = 'smart-hint';
+    msgHint.textContent = 'Чем подробнее — тем точнее будет оценка';
+    msgHint.className = 'smart-hint';
+    const originalText = resetBtn.innerHTML;
+    resetBtn.innerHTML = '<span style="color:#10b981">✓ Очищено!</span>';
+    setTimeout(() => { resetBtn.innerHTML = originalText; }, 1500);
+    updateProgress();
+  });
+});
+</script>
+</body>
+</html>
