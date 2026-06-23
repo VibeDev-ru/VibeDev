@@ -4,36 +4,39 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Заявка — VibeDev</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
   <style>
+    .code-bg { position: relative; overflow: hidden; }
+    .code-bg::before { content: 'const form = document.getElementById("requestForm");'; position: absolute; bottom: 12px; right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.03); letter-spacing: 0.03em; pointer-events: none; }
+
     .form-row{display:flex;gap:12px}
     @media(max-width:760px){ .form-row{flex-direction:column} }
-    .note-small{font-size:13px;color:var(--muted);display:block;margin-bottom:4px;font-weight:400;letter-spacing:0.02em;font-family:var(--font-accent)}
+    .note-small{font-size:13px;color:var(--muted);display:block;margin-bottom:4px;font-weight:400;letter-spacing:0.02em;font-family:'JetBrains Mono',monospace}
     
-    .field-wrapper{display:flex;align-items:center;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.04);transition:var(--transition);overflow:hidden}
+    .field-wrapper{display:flex;align-items:center;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.04);transition:var(--transition);overflow:hidden}
     .field-wrapper:focus-within{border-color:rgba(96,165,250,0.3);box-shadow:0 8px 30px rgba(96,165,250,0.08);transform:translateY(-2px)}
-    .field-wrapper .contact-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;margin:0 4px 0 8px;background:transparent}
-    .field-wrapper .contact-icon svg{width:20px;height:20px;stroke:var(--accent-2)}
+    .field-wrapper .contact-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;margin:0 4px 0 8px;background:transparent}
+    .field-wrapper .contact-icon svg{width:18px;height:18px;stroke:var(--accent-2)}
     .field-wrapper .contact-icon.purple svg{stroke:var(--accent-purple)}
     .field-wrapper .contact-icon.green svg{stroke:var(--accent)}
-    .field-wrapper .fancy-input,.field-wrapper .fancy-textarea{border:none;background:transparent;box-shadow:none;padding:12px 14px 12px 4px;width:100%;color:var(--text);outline:none;font-family:var(--font-body);font-weight:300;letter-spacing:0.01em;font-size:15px}
+    .field-wrapper .fancy-input,.field-wrapper .fancy-textarea{border:none;background:transparent;box-shadow:none;padding:10px 14px 10px 4px;width:100%;color:var(--text);outline:none;font-family:'Quicksand',sans-serif;font-weight:400;letter-spacing:0.01em;font-size:15px}
     .field-wrapper .fancy-input:focus,.field-wrapper .fancy-textarea:focus{transform:none;box-shadow:none}
     .field-wrapper .fancy-textarea{resize:vertical;min-height:80px}
-    .field-wrapper .fancy-input::placeholder,.field-wrapper .fancy-textarea::placeholder{font-weight:300;color:rgba(156,163,175,0.5)}
+    .field-wrapper .fancy-input::placeholder,.field-wrapper .fancy-textarea::placeholder{font-weight:400;color:rgba(156,163,175,0.5)}
 
     .contact-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-    .contact-header h2{margin:0}
+    .contact-header h2{margin:0;font-family:'Nunito',sans-serif}
     .contact-header .header-icon{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));flex-shrink:0}
 
     .form-progress{display:flex;gap:8px;margin-bottom:20px;align-items:center}
-    .form-progress .step{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--font-accent);letter-spacing:0.02em;opacity:0.4;transition:var(--transition)}
+    .form-progress .step{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;opacity:0.4;transition:var(--transition)}
     .form-progress .step.active{opacity:1;color:var(--accent-2)}
     .form-progress .step.done{opacity:0.7;color:var(--accent)}
     .form-progress .step-line{flex:1;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;position:relative;overflow:hidden}
     .form-progress .step-line .fill{height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:2px;transition:width 0.6s ease;width:0%}
-    .form-progress .step .step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.04);font-size:11px;font-weight:700;transition:var(--transition)}
+    .form-progress .step .step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.04);font-size:11px;font-weight:700;transition:var(--transition);font-family:'Nunito',sans-serif}
     .form-progress .step.active .step-num{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#041018}
     .form-progress .step.done .step-num{background:rgba(110,231,183,0.15);color:var(--accent)}
 
@@ -44,12 +47,12 @@
     .field-group:nth-child(4){animation-delay:0.4s}
     .field-group:nth-child(5){animation-delay:0.5s}
 
-    .smart-hint{font-size:12px;color:var(--muted);font-weight:300;margin-top:4px;padding-left:52px;opacity:0;transition:var(--transition);font-family:var(--font-body);letter-spacing:0.01em}
+    .smart-hint{font-size:12px;color:var(--muted);font-weight:400;margin-top:4px;padding-left:52px;opacity:0;transition:var(--transition);font-family:'Quicksand',sans-serif;letter-spacing:0.01em}
     .smart-hint.visible{opacity:0.6}
     .smart-hint.success{color:var(--accent);opacity:0.8}
 
     .service-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:8px}
-    .service-option{padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);text-align:center;font-size:13px;font-family:var(--font-accent);letter-spacing:0.01em;color:var(--muted)}
+    .service-option{padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);text-align:center;font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:0.01em;color:var(--muted)}
     .service-option:hover{border-color:rgba(96,165,250,0.2);background:rgba(255,255,255,0.04);transform:translateY(-2px)}
     .service-option.active{border-color:var(--accent-2);background:rgba(96,165,250,0.08);color:var(--text)}
     .service-option .opt-icon{display:block;font-size:24px;margin-bottom:4px}
@@ -58,29 +61,158 @@
     .submission-item:hover{transform:translateX(6px);border-color:rgba(96,165,250,0.15);background:rgba(255,255,255,0.03)}
     .submission-icon{flex-shrink:0;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(96,165,250,0.08);color:var(--accent-2)}
     .submission-content{flex:1;min-width:0}
-    .submission-content .submission-title{font-weight:600;color:var(--text);font-size:14px;font-family:var(--font-accent)}
-    .submission-content .submission-meta{font-size:12px;color:var(--muted);font-weight:300}
-    .submission-content .submission-text{margin-top:4px;font-size:13px;color:var(--muted);word-break:break-word;font-weight:300}
+    .submission-content .submission-title{font-weight:700;color:var(--text);font-size:14px;font-family:'Nunito',sans-serif}
+    .submission-content .submission-meta{font-size:12px;color:var(--muted);font-weight:400;font-family:'JetBrains Mono',monospace}
+    .submission-content .submission-text{margin-top:4px;font-size:13px;color:var(--muted);word-break:break-word;font-weight:400}
 
-    .calc-option{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:var(--transition);font-family:var(--font-accent);font-size:13px;letter-spacing:0.02em}
+    .calc-option{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:var(--transition);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.02em}
     .calc-option:hover{border-color:rgba(96,165,250,0.2);color:var(--text)}
     .calc-option.active{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#041018;border-color:transparent;font-weight:600}
     .calc-check{accent-color:var(--accent-2);width:16px;height:16px;cursor:pointer}
     
-    .vibedev-tag{display:inline-block;padding:2px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));color:var(--accent-2);font-family:var(--font-accent);font-size:11px;letter-spacing:0.05em;text-transform:uppercase}
+    .vibedev-tag{display:inline-block;padding:2px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(96,165,250,0.1),rgba(110,231,183,0.1));color:var(--accent-2);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase}
 
     .discount-section{background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.15);border-radius:12px;padding:16px 20px;margin-top:12px}
-    .discount-section .discount-title{font-family:var(--font-accent);font-weight:600;font-size:14px;color:#fbbf24;display:flex;align-items:center;gap:8px}
+    .discount-section .discount-title{font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;color:#fbbf24;display:flex;align-items:center;gap:8px}
     .discount-section .discount-input{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
-    .discount-section .discount-input input{width:80px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--text);font-family:var(--font-accent);font-size:14px;text-align:center;outline:none;transition:var(--transition)}
+    .discount-section .discount-input input{width:80px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;text-align:center;outline:none;transition:var(--transition)}
     .discount-section .discount-input input:focus{border-color:rgba(251,191,36,0.3);box-shadow:0 0 20px rgba(251,191,36,0.05)}
     .discount-section .discount-input input::-webkit-outer-spin-button,
     .discount-section .discount-input input::-webkit-inner-spin-button{-webkit-appearance:none}
     .discount-section .discount-input input[type=number]{-moz-appearance:textfield}
-    .discount-section .discount-input .discount-label{font-size:13px;color:var(--muted);font-weight:300}
-    .discount-section .discount-input .discount-result{font-family:var(--font-accent);font-weight:700;font-size:16px;color:#fbbf24}
-    .discount-section .discount-info{font-size:12px;color:var(--muted);font-weight:300;margin-top:6px}
+    .discount-section .discount-input .discount-label{font-size:13px;color:var(--muted);font-weight:400}
+    .discount-section .discount-input .discount-result{font-family:'Nunito',sans-serif;font-weight:700;font-size:16px;color:#fbbf24}
+    .discount-section .discount-info{font-size:12px;color:var(--muted);font-weight:400;margin-top:6px}
     .discount-section .discount-info strong{color:#fbbf24}
+
+    .logo-link { display: block; cursor: pointer; transition: var(--transition); }
+    .logo-link:hover { transform: scale(1.05); }
+
+    /* МОДАЛЬНОЕ ОКНО */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      animation: modalFadeIn 0.3s ease;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(40px) scale(0.95); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .modal-content {
+      background: var(--panel);
+      border-radius: 20px;
+      padding: 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      text-align: center;
+      animation: modalSlideUp 0.4s ease;
+      position: relative;
+    }
+    .modal-content .modal-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .modal-content .modal-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .modal-content .modal-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 400;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .modal-content .modal-subtitle strong {
+      color: var(--text);
+    }
+    .modal-content .modal-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .modal-content .modal-buttons .modal-btn {
+      padding: 12px 28px;
+      border-radius: 12px;
+      border: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-content .modal-buttons .modal-btn-primary {
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      color: #041018;
+    }
+    .modal-content .modal-buttons .modal-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(96,165,250,0.3);
+    }
+    .modal-content .modal-buttons .modal-btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .modal-content .modal-buttons .modal-btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      transform: translateY(-3px);
+    }
+    .modal-content .modal-buttons .modal-btn-telegram {
+      background: rgba(139,92,246,0.15);
+      color: var(--accent-purple);
+      border: 1px solid rgba(139,92,246,0.2);
+    }
+    .modal-content .modal-buttons .modal-btn-telegram:hover {
+      background: rgba(139,92,246,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(139,92,246,0.15);
+    }
+    .modal-content .modal-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 300;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+    .modal-content .modal-divider::before,
+    .modal-content .modal-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
   </style>
 </head>
 <body>
@@ -93,48 +225,48 @@
 
   <button id="menuBtnC" class="menu-button" aria-label="Меню">
     <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
     </span>
     <span class="menu-caption"><span class="menu-title">Меню</span><span class="menu-hint">нажмите для вызова меню</span></span>
   </button>
 
   <div id="menuOverlayC" class="bubble-overlay" aria-hidden="true">
     <div class="bubble-panel" role="menu">
-      <a class="bubble-item" href="index.html">
-        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div>
-        <span>Главная</span>
-      </a>
-      <a class="bubble-item" href="services.html">
-        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84a.49.49 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.22 0 .43-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg></div>
-        <span>Услуги</span>
-      </a>
-      <a class="bubble-item" href="contact.html">
-        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-        <span>Заявка</span>
-      </a>
-      <a class="bubble-item" href="reviews.html">
-        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-        <span>Отзывы</span>
-      </a>
-      <a class="bubble-item" href="faq.html">
-        <div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-        <span>FAQ</span>
-      </a>
+      <a class="bubble-item" href="index.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg></div><span>Главная</span></a>
+      <a class="bubble-item" href="services.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M19.14 12.94a7.07 7.07 0 0 0 0-1.88l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84a.49.49 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.49.49 0 0 0 .12.61l2.03 1.58a7.07 7.07 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.49.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.22 0 .43-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></svg></div><span>Услуги</span></a>
+      <a class="bubble-item" href="contact.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div><span>Заявка</span></a>
+      <a class="bubble-item" href="reviews.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div><span>Отзывы</span></a>
+      <a class="bubble-item" href="faq.html"><div class="bubble-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><span>FAQ</span></a>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+      <span class="modal-icon">🎉</span>
+      <div class="modal-title">Ваша заявка отправлена!</div>
+      <div class="modal-subtitle">
+        Ожидайте ответа в мессенджере. <strong>Менеджер скоро вам напишет.</strong><br>
+        Либо если вопрос срочный — напишите сами:
+      </div>
+      <div class="modal-buttons">
+        <a href="https://t.me/uc3rnam3" target="_blank" class="modal-btn modal-btn-telegram">
+          <i class="fab fa-telegram"></i> Написать в Telegram
+        </a>
+        <button class="modal-btn modal-btn-secondary" id="modalCloseBtn">Закрыть</button>
+      </div>
+      <div class="modal-divider">✦ VibeDev</div>
     </div>
   </div>
 
   <div class="container" id="pageContainer">
     <header>
       <div class="brand">
-        <span class="logo" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#2dd4bf"/></linearGradient></defs>
-            <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#lg)"/>
-            <path d="M22 42v-8h8v8h-8zM36 20h8v24h-8V20z" fill="#041018"/>
-            <circle cx="32" cy="32" r="4" fill="#041018" opacity="0.3"/>
-            <text x="16" y="42" font-family="'Space Grotesk',monospace" font-weight="800" font-size="18" fill="#041018">V</text>
-          </svg>
-        </span>
+        <a href="index.html" class="logo-link" aria-label="VibeDev - На главную">
+          <span class="logo" aria-hidden="true">
+            <img src="https://i.imgur.com/xmI3lVV.jpeg" alt="VibeDev Logo" style="width:54px;height:54px;border-radius:14px;object-fit:cover;display:block;">
+          </span>
+        </a>
         <div>
           <div class="brand-name">VibeDev</div>
           <div class="brand-sub">Код с настроением</div>
@@ -143,7 +275,7 @@
     </header>
 
     <main>
-      <section class="card">
+      <section class="card code-bg">
         <div class="contact-header">
           <div class="header-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -154,7 +286,7 @@
           <h2>Создать заявку</h2>
           <span class="vibedev-tag" style="margin-left:auto">✦ VibeDev</span>
         </div>
-        <p style="font-weight:300;letter-spacing:0.01em;color:var(--muted)">Заполните форму — заявка отправится в Telegram и сохранится локально</p>
+        <p style="font-weight:400;letter-spacing:0.01em;color:var(--muted)">Заполните форму — заявка отправится и сохранится</p>
 
         <div class="form-progress" id="formProgress">
           <div class="step active" data-step="1"><span class="step-num">1</span><span>Услуга</span></div>
@@ -225,7 +357,7 @@
             <h2 style="font-size:24px">Калькулятор стоимости</h2>
             <span class="vibedev-tag" style="margin-left:auto">✦ VibeDev</span>
           </div>
-          <p style="font-weight:300;letter-spacing:0.01em;color:var(--muted);margin-bottom:16px">Выберите параметры и получите примерную стоимость проекта</p>
+          <p style="font-weight:400;letter-spacing:0.01em;color:var(--muted);margin-bottom:16px">Выберите параметры и получите примерную стоимость проекта</p>
 
           <div id="calculator" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
             <div style="grid-column:1/-1">
@@ -256,15 +388,11 @@
               </div>
             </div>
 
-            <!-- Дополнительные услуги (динамические) -->
             <div style="grid-column:1/-1" id="extrasContainer">
               <label class="note-small">Дополнительные услуги</label>
-              <div id="extrasList" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px">
-                <!-- Заполняется через JS -->
-              </div>
+              <div id="extrasList" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px"></div>
             </div>
 
-            <!-- СКИДКА -->
             <div style="grid-column:1/-1">
               <div class="discount-section">
                 <div class="discount-title">🎯 Приведи друга — получи скидку!</div>
@@ -281,13 +409,12 @@
               </div>
             </div>
 
-            <!-- Результат -->
             <div style="grid-column:1/-1;background:rgba(255,255,255,0.02);border-radius:12px;padding:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
               <div>
-                <div style="font-size:13px;color:var(--muted);font-weight:300">Примерная стоимость</div>
-                <div style="font-family:var(--font-heading);font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="totalPrice">15 000 ₽</div>
-                <div style="font-size:12px;color:var(--muted);font-weight:300" id="discountInfo">Скидка: 0%</div>
-                <div style="font-size:12px;color:var(--muted);font-weight:300" id="calcDetails"></div>
+                <div style="font-size:13px;color:var(--muted);font-weight:400">Примерная стоимость</div>
+                <div style="font-family:'Nunito',sans-serif;font-size:36px;font-weight:800;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text" id="totalPrice">15 000 ₽</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:400" id="discountInfo">Скидка: 0%</div>
+                <div style="font-size:12px;color:var(--muted);font-weight:400" id="calcDetails"></div>
               </div>
               <div style="display:flex;gap:8px;flex-wrap:wrap">
                 <button class="order-btn" id="calcOrderBtn" style="padding:14px 28px"><span>📩 Отправить заявку</span></button>
@@ -298,21 +425,21 @@
         </div>
 
         <div style="margin-top:28px">
-          <h3 style="display:flex;align-items:center;gap:8px;font-size:20px">
+          <h3 style="display:flex;align-items:center;gap:8px;font-size:20px;font-family:'Nunito',sans-serif">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
             Отправленные заявки
-            <span style="font-size:13px;font-weight:300;color:var(--muted);font-family:var(--font-body)" id="submissionCount"></span>
+            <span style="font-size:13px;font-weight:400;color:var(--muted);font-family:'Quicksand',sans-serif" id="submissionCount"></span>
           </h3>
           <div id="submissions" class="submissions"></div>
         </div>
       </section>
     </main>
 
-    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:300;letter-spacing:0.02em">
-      <span style="font-family:var(--font-accent);font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
+    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:400;letter-spacing:0.02em">
+      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
     </footer>
   </div>
 
@@ -325,6 +452,28 @@ if (menuBtnC && menuOverlayC && pageContainer) {
     menuBtnC.addEventListener('click', ()=>{ const open = menuOverlayC.classList.toggle('open'); menuOverlayC.setAttribute('aria-hidden', !open); pageContainer.classList.toggle('blurred', open); });
     menuOverlayC.addEventListener('click', (e)=>{ if(e.target === menuOverlayC){ menuOverlayC.classList.remove('open'); menuOverlayC.setAttribute('aria-hidden','true'); pageContainer.classList.remove('blurred'); }});
 }
+
+// Модальное окно
+const successModal = document.getElementById('successModal');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+function openModal() {
+  successModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  successModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+modalCloseBtn.addEventListener('click', closeModal);
+successModal.addEventListener('click', (e) => {
+  if (e.target === successModal) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && successModal.classList.contains('open')) closeModal();
+});
 
 // Умная форма
 const serviceOptions = document.querySelectorAll('.service-option');
@@ -403,7 +552,7 @@ function renderSubmissions(){
   node.innerHTML='';
   const arr=loadSubmissions();
   count.textContent = arr.length ? '('+arr.length+')' : '';
-  if(arr.length===0){ node.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;font-weight:300">Заявок пока нет</div>'; return; }
+  if(arr.length===0){ node.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;font-weight:400">Заявок пока нет</div>'; return; }
   for(const s of arr){
     const el=document.createElement('div');
     el.className='submission-item';
@@ -423,11 +572,8 @@ const discountDisplay = document.getElementById('discountDisplay');
 let selectedService = { price: 15000, value: 'site', label: 'Сайт' };
 let selectedComplexity = { multiplier: 1, label: 'Лёгкая' };
 let selectedUrgency = { multiplier: 1, label: 'Обычные' };
-let extras = 0;
 let currentDiscount = 0;
-let selectedExtrasList = [];
 
-// Дополнительные услуги
 const extrasData = {
     site: [
         { id: 'adaptive', label: 'Адаптив', price: 3000 },
@@ -461,13 +607,12 @@ function updateExtras() {
     const container = document.getElementById('extrasList');
     container.innerHTML = '';
     selectedExtras = {};
-    selectedExtrasList = [];
     
     const serviceValue = document.querySelector('.calc-option.active[data-price]')?.dataset.value || 'site';
     const extras = extrasData[serviceValue] || [];
     
     if (extras.length === 0) {
-        container.innerHTML = '<span style="color:var(--muted);font-size:13px;font-weight:300">Нет дополнительных услуг для этого типа</span>';
+        container.innerHTML = '<span style="color:var(--muted);font-size:13px;font-weight:400">Нет дополнительных услуг для этого типа</span>';
         return;
     }
     
@@ -523,7 +668,6 @@ function updatePrice() {
     let basePrice = selectedService.price || 15000;
     let total = basePrice * (selectedComplexity.multiplier || 1) * (selectedUrgency.multiplier || 1);
     
-    // Дополнительные услуги (проценты и фиксированная цена)
     let extraTotal = 0;
     let extraPercent = 0;
     let extrasDetails = [];
@@ -539,11 +683,9 @@ function updatePrice() {
         }
     }
     
-    // Применяем процентные надбавки к базовой цене
     total = total * (1 + extraPercent / 100);
     total += extraTotal;
     
-    // Скидка
     let people = parseInt(discountPeople.value) || 0;
     if (people < 0) people = 0;
     if (people > 6) people = 6;
@@ -552,13 +694,11 @@ function updatePrice() {
     currentDiscount = Math.min(people * 10, 60);
     discountDisplay.textContent = currentDiscount + '%';
     
-    // Применяем скидку
     const finalTotal = total * (1 - currentDiscount / 100);
     
     totalPriceEl.textContent = Math.round(finalTotal).toLocaleString('ru-RU') + ' ₽';
     discountInfo.textContent = currentDiscount > 0 ? 'Скидка: ' + currentDiscount + '%' : 'Скидка: 0%';
     
-    // Детали для отправки
     let details = selectedService.label + ' | ' + selectedComplexity.label + ' | ' + selectedUrgency.label;
     if (extrasDetails.length > 0) {
         details += ' | Доп: ' + extrasDetails.join(', ');
@@ -569,7 +709,6 @@ function updatePrice() {
     calcDetails.textContent = details;
 }
 
-// Обработчики калькулятора
 calcOptions.forEach(opt => {
     opt.addEventListener('click', function() {
         const parent = this.closest('div');
@@ -599,7 +738,6 @@ calcOptions.forEach(opt => {
     });
 });
 
-// Скидка
 discountPeople.addEventListener('input', function() {
     let val = parseInt(this.value) || 0;
     if (val < 0) val = 0;
@@ -608,7 +746,6 @@ discountPeople.addEventListener('input', function() {
     updatePrice();
 });
 
-// Сброс калькулятора
 document.getElementById('calcResetBtn')?.addEventListener('click', function() {
     document.querySelectorAll('.calc-option').forEach(opt => opt.classList.remove('active'));
     document.querySelectorAll('.calc-option[data-value="site"]').forEach(opt => opt.classList.add('active'));
@@ -628,7 +765,6 @@ document.getElementById('calcResetBtn')?.addEventListener('click', function() {
     setTimeout(() => { this.style.transform = 'rotate(0deg)'; }, 500);
 });
 
-// Кнопка "Отправить заявку" из калькулятора
 document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
     const total = totalPriceEl.textContent;
     const serviceName = selectedService.label || 'Сайт';
@@ -638,15 +774,10 @@ document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
     const extrasList = getSelectedExtrasList().join(', ') || 'Нет';
     const people = parseInt(discountPeople.value) || 0;
     
-    // Заполняем форму данными из калькулятора
     const serviceInput = document.getElementById('service');
     const msgInput = document.getElementById('msg');
-    const nameInput = document.getElementById('name');
-    const contactInput = document.getElementById('contact');
     
-    // Если форма не заполнена, подставляем данные
     if (!serviceInput.value) {
-        // Находим и активируем соответствующий option
         const serviceNameClean = serviceName.replace(/[🌐🤖📚🎨💡]\s*/, '').trim();
         serviceOptions.forEach(opt => {
             if (opt.dataset.service.includes(serviceNameClean) || serviceNameClean.includes(opt.dataset.service)) {
@@ -655,7 +786,6 @@ document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
         });
     }
     
-    // Добавляем детали калькулятора в описание
     let calcText = '';
     if (msgInput.value) {
         calcText = msgInput.value + '\n\n--- Данные из калькулятора ---\n';
@@ -678,10 +808,8 @@ document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
     }
     msgInput.value = calcText;
     
-    // Прокручиваем к форме
     document.getElementById('requestForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
     
-    // Подсвечиваем поля
     const fields = ['service', 'name', 'contact', 'msg'];
     fields.forEach(id => {
         const el = document.getElementById(id);
@@ -691,13 +819,11 @@ document.getElementById('calcOrderBtn')?.addEventListener('click', function() {
         }
     });
     
-    // Обновляем подсказки
     serviceHint.textContent = '✅ Данные из калькулятора добавлены!';
     serviceHint.className = 'smart-hint visible success';
     msgHint.textContent = '✅ Данные калькулятора добавлены в описание!';
     msgHint.className = 'smart-hint visible success';
     
-    // Активируем кнопку отправки
     const sendBtn = document.getElementById('sendBtn');
     sendBtn.style.transform = 'scale(1.05)';
     sendBtn.style.boxShadow = '0 0 30px rgba(96,165,250,0.3)';
@@ -720,45 +846,112 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateExtras();
   updatePrice();
 
+  // ✅ ВАША ССЫЛКА НА GOOGLE SHEETS
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoz9-oA_2FSERfVOn0WvRq8lRid77_sMM4rBQNNVPAo0D_Q-ZDXpNbWbc0agB4VOYB/exec';
+
   const form=document.getElementById('requestForm');
-  form.addEventListener('submit',(e)=>{ 
+  form.addEventListener('submit', async (e)=>{ 
     e.preventDefault();
-    if(!serviceInput.value) { serviceHint.textContent = '⚠️ Выберите услугу!'; serviceHint.className = 'smart-hint visible'; return; }
-    if(nameInput.value.length < 2) { nameHint.textContent = '⚠️ Введите имя!'; nameHint.className = 'smart-hint visible'; return; }
-    if(!contactInput.value.startsWith('@') || contactInput.value.length < 3) { contactHint.textContent = '⚠️ Укажите Telegram!'; contactHint.className = 'smart-hint visible'; return; }
-    if(msgInput.value.length < 10) { msgHint.textContent = '⚠️ Опишите задачу подробнее!'; msgHint.className = 'smart-hint visible'; return; }
-    const service=serviceInput.value.trim();
-    const name=nameInput.value.trim();
-    const contact=contactInput.value.trim();
-    const msg=msgInput.value.trim();
-    const now=new Date();
-    const ts=now.toLocaleString('ru-RU',{dateStyle:'short',timeStyle:'short'});
-    const discount = currentDiscount || 0;
-    const people = parseInt(discountPeople.value) || 0;
+    
+    // Валидация
+    if(!serviceInput.value) { 
+      serviceHint.textContent = '⚠️ Выберите услугу!'; 
+      serviceHint.className = 'smart-hint visible'; 
+      return; 
+    }
+    if(nameInput.value.length < 2) { 
+      nameHint.textContent = '⚠️ Введите имя!'; 
+      nameHint.className = 'smart-hint visible'; 
+      return; 
+    }
+    if(!contactInput.value.startsWith('@') || contactInput.value.length < 3) { 
+      contactHint.textContent = '⚠️ Укажите Telegram!'; 
+      contactHint.className = 'smart-hint visible'; 
+      return; 
+    }
+    if(msgInput.value.length < 10) { 
+      msgHint.textContent = '⚠️ Опишите задачу подробнее!'; 
+      msgHint.className = 'smart-hint visible'; 
+      return; 
+    }
+
+    // Собираем данные
+    const service = serviceInput.value.trim();
+    const name = nameInput.value.trim();
+    const contact = contactInput.value.trim();
+    const message = msgInput.value.trim();
     const calcData = calcDetails.textContent || '';
-    
-    let text = '📩 *Новая заявка VibeDev*\n';
-    text += '🕒 ' + ts + '\n';
-    text += '────────────\n';
-    text += '👤 ' + name + '\n';
-    text += '✉️ ' + contact + '\n';
-    text += '🔧 Услуга: ' + service + '\n';
-    if (calcData) {
-        text += '📊 Калькулятор: ' + calcData + '\n';
+    const discountValue = currentDiscount || 0;
+
+    // Показываем загрузку на кнопке
+    const sendBtn = document.getElementById('sendBtn');
+    const originalText = sendBtn.innerHTML;
+    sendBtn.innerHTML = '<span>⏳ Отправка...</span>';
+    sendBtn.disabled = true;
+
+    try {
+      // Отправляем в Google Sheets
+      const formData = new URLSearchParams();
+      formData.append('name', name);
+      formData.append('contact', contact);
+      formData.append('service', service);
+      formData.append('message', message);
+      formData.append('calc_details', calcData);
+      formData.append('discount', discountValue.toString());
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: formData
+      });
+
+      // Сохраняем локально для отображения
+      const now = new Date();
+      const ts = now.toLocaleString('ru-RU', {dateStyle:'short', timeStyle:'short'});
+      saveSubmission({service, name, contact, msg: message, ts});
+      renderSubmissions();
+      
+      // ✅ ОТКРЫВАЕМ МОДАЛЬНОЕ ОКНО
+      openModal();
+      
+      // Очищаем форму
+      form.reset();
+      serviceOptions.forEach(o => o.classList.remove('active'));
+      serviceInput.value = '';
+      
+      // Обновляем подсказки
+      serviceHint.textContent = '✅ Заявка отправлена!';
+      serviceHint.className = 'smart-hint visible success';
+      nameHint.textContent = '✅ Отлично!';
+      nameHint.className = 'smart-hint visible success';
+      contactHint.textContent = '✅ Отлично!';
+      contactHint.className = 'smart-hint visible success';
+      msgHint.textContent = '✅ Отправлено!';
+      msgHint.className = 'smart-hint visible success';
+      
+      updateProgress();
+
+    } catch (error) {
+      console.error('Ошибка:', error);
+      sendBtn.innerHTML = '<span>❌ Ошибка</span>';
+      setTimeout(() => {
+        sendBtn.innerHTML = originalText;
+        sendBtn.disabled = false;
+      }, 3000);
     }
-    if (discount > 0) {
-        text += '🎯 Скидка: ' + discount + '% (приведено ' + people + ' чел.)\n';
-    }
-    text += '────────────\n\n';
-    text += '📝 ' + msg + '\n\n';
-    text += 'Источник: VibeDev';
-    
-    saveSubmission({service,name,contact,msg,ts});
-    renderSubmissions();
-    window.open('https://t.me/uc3rnam3?text='+encodeURIComponent(text),'_blank');
-    updateProgress();
+
+    // Восстанавливаем кнопку
+    setTimeout(() => {
+      sendBtn.innerHTML = originalText;
+      sendBtn.disabled = false;
+      sendBtn.style.background = '';
+    }, 5000);
   });
 
+  // Reset button
   const resetBtn = document.getElementById('resetBtn');
   resetBtn.addEventListener('click',()=>{ 
     resetBtn.style.transform = 'scale(0.9)';
