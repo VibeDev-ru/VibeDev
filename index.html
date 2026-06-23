@@ -4,9 +4,86 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>VibeDev — Главная</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* ... все стили остаются без изменений ... */
+    .facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+    .fact-card { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 20px; border: 1px solid var(--border); text-align: center; transition: var(--transition); position: relative; overflow: hidden; }
+    .fact-card::after { content: '{}'; position: absolute; bottom: -10px; right: -5px; font-family: 'JetBrains Mono', monospace; font-size: 48px; color: rgba(255,255,255,0.02); pointer-events: none; }
+    .fact-card:hover { transform: translateY(-6px); border-color: rgba(96,165,250,0.15); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .fact-card .fact-number { font-family: 'Nunito', sans-serif; font-size: 42px; font-weight: 900; background: linear-gradient(135deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .fact-card .fact-label { font-size: 14px; color: var(--muted); font-weight: 400; margin-top: 6px; letter-spacing: 0.02em; }
+    .fact-card .fact-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+
+    .bio-section { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; align-items: center; }
+    .bio-avatar { display: flex; justify-content: center; align-items: center; position: relative; }
+    .bio-avatar .avatar-circle { 
+      width: 200px; 
+      height: 200px; 
+      border-radius: 50%; 
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(96,165,250,0.2);
+      transition: var(--transition);
+      position: relative;
+      border: 3px solid rgba(96,165,250,0.2);
+    }
+    .bio-avatar .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .bio-avatar .avatar-circle:hover { 
+      transform: scale(1.05) rotate(-5deg); 
+      box-shadow: 0 30px 80px rgba(96,165,250,0.3);
+      border-color: var(--accent-2);
+    }
+    .bio-text h3 { font-size: 28px; margin-bottom: 8px; font-family: 'Nunito', sans-serif; }
+    .bio-text .bio-subtitle { color: var(--accent-2); font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.05em; margin-bottom: 12px; display: block; }
+    .bio-text p { color: var(--muted); font-weight: 400; line-height: 1.8; font-size: 15px; }
+    .bio-text .bio-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .bio-text .bio-tags span { padding: 4px 14px; border-radius: 20px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+    .skills-grid-new { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-top: 8px; }
+    .skill-card-new { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 24px 16px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transition: var(--transition); min-height: 180px; gap: 8px; position: relative; overflow: hidden; }
+    .skill-card-new::before { content: 'function'; position: absolute; top: 6px; right: 8px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.04); letter-spacing: 0.05em; }
+    .skill-card-new:hover { transform: translateY(-6px); border-color: rgba(96,165,250,0.2); background: rgba(255,255,255,0.04); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+    .skill-icon-new { width: 56px; height: 56px; border-radius: 14px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; transition: var(--transition); margin-bottom: 4px; }
+    .skill-card-new:hover .skill-icon-new { transform: scale(1.1) rotate(5deg); background: rgba(255,255,255,0.06); }
+    .skill-icon-new svg { width: 28px; height: 28px; }
+    .skill-name-new { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.01em; }
+    .skill-level-new { font-size: 13px; color: var(--muted); font-weight: 400; padding: 2px 12px; border-radius: 12px; background: rgba(255,255,255,0.04); display: inline-block; font-family: 'JetBrains Mono', monospace; }
+
+    .journey-timeline { display: flex; flex-direction: column; gap: 12px; position: relative; padding-left: 24px; border-left: 2px solid var(--border); }
+    .journey-item { padding: 12px 16px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid var(--border); transition: var(--transition); position: relative; }
+    .journey-item::before { content: '>'; position: absolute; left: -30px; top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent-2); opacity: 0.5; }
+    .journey-item::after { content: ''; position: absolute; left: -30px; top: 18px; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-2), var(--accent)); box-shadow: 0 0 20px rgba(96,165,250,0.2); opacity: 0.3; }
+    .journey-item:hover { transform: translateX(6px); border-color: rgba(96,165,250,0.15); }
+    .journey-item .journey-year { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--accent-2); font-size: 13px; }
+    .journey-item .journey-title { font-weight: 700; font-size: 16px; font-family: 'Nunito', sans-serif; }
+    .journey-item .journey-desc { color: var(--muted); font-weight: 400; font-size: 14px; margin-top: 2px; }
+
+    .quote-block { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 24px 28px; border-left: 4px solid var(--accent-2); margin: 20px 0; position: relative; overflow: hidden; }
+    .quote-block::before { content: '/* */'; position: absolute; bottom: 8px; right: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.03); letter-spacing: 0.05em; }
+    .quote-block .quote-text { font-family: 'Nunito', sans-serif; font-size: 20px; font-style: italic; color: var(--text); font-weight: 400; }
+    .quote-block .quote-author { color: var(--muted); font-weight: 400; font-size: 14px; margin-top: 8px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+    .logo-link {
+      display: block;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .logo-link:hover {
+      transform: scale(1.05);
+    }
+
+    @media(max-width: 768px) { .bio-section { grid-template-columns: 1fr; text-align: center; } .bio-avatar .avatar-circle { width: 150px; height: 150px; } .bio-text .bio-tags { justify-content: center; } .facts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width: 600px) { .skills-grid-new { grid-template-columns: repeat(2, 1fr); gap: 12px; } .skill-card-new { min-height: 150px; padding: 16px 12px; } .skill-icon-new { width: 44px; height: 44px; } .skill-icon-new svg { width: 22px; height: 22px; } .skill-name-new { font-size: 14px; } .skill-level-new { font-size: 12px; } }
+    @media(max-width: 480px) { .facts-grid { grid-template-columns: 1fr; } }
+    @media(max-width: 400px) { .skills-grid-new { grid-template-columns: 1fr 1fr; gap: 10px; } .skill-card-new { min-height: 130px; padding: 12px 8px; } }
+  </style>
 </head>
 <body>
   <div class="particles" aria-hidden="true">
@@ -18,7 +95,7 @@
 
   <button id="menuBtn" class="menu-button" aria-label="Меню">
     <span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.06)">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="#041018"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
     </span>
     <span class="menu-caption"><span class="menu-title">Меню</span><span class="menu-hint">нажмите для вызова меню</span></span>
   </button>
@@ -51,20 +128,11 @@
   <div class="container" id="pageContainer">
     <header>
       <div class="brand">
-        <span class="logo" aria-hidden="true">
-          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0%" stop-color="#60a5fa"/>
-                <stop offset="100%" stop-color="#2dd4bf"/>
-              </linearGradient>
-            </defs>
-            <rect x="6" y="6" width="52" height="52" rx="10" fill="url(#g)"/>
-            <path d="M22 42v-8h8v8h-8zM36 20h8v24h-8V20z" fill="#041018"/>
-            <circle cx="32" cy="32" r="4" fill="#041018" opacity="0.3"/>
-            <text x="16" y="42" font-family="'Space Grotesk',monospace" font-weight="800" font-size="18" fill="#041018">V</text>
-          </svg>
-        </span>
+        <a href="index.html" class="logo-link" aria-label="VibeDev - На главную">
+          <span class="logo" aria-hidden="true">
+            <img src="https://i.imgur.com/xmI3lVV.jpeg" alt="VibeDev Logo" style="width: 54px; height: 54px; border-radius: 14px; object-fit: cover; display: block;">
+          </span>
+        </a>
         <div>
           <div class="brand-name">VibeDev</div>
           <div class="brand-sub">Код с настроением</div>
@@ -72,6 +140,7 @@
       </div>
     </header>
 
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-left">
         <h1>Веб‑разработка с атмосферой</h1>
@@ -84,7 +153,175 @@
       <div class="large-visual center" style="font-size:96px;color:var(--accent)">⚡</div>
     </section>
 
-    <div class="grid">
+    <!-- ФАКТЫ -->
+    <div class="facts-grid">
+      <div class="fact-card">
+        <span class="fact-icon">🚀</span>
+        <div class="fact-number">16+</div>
+        <div class="fact-label">Довольных клиентов</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-icon">⭐</span>
+        <div class="fact-number">5.0</div>
+        <div class="fact-label">Средняя оценка</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-icon">📚</span>
+        <div class="fact-number">9+</div>
+        <div class="fact-label">Защищенных работ</div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-icon">🌍</span>
+        <div class="fact-number">100%</div>
+        <div class="fact-label">Успешных проектов</div>
+      </div>
+    </div>
+
+    <!-- БИОГРАФИЯ -->
+    <div class="card">
+      <div class="bio-section">
+        <div class="bio-avatar">
+          <div class="avatar-circle">
+            <img src="https://i.imgur.com/xmI3lVV.jpeg" alt="VibeDev Logo">
+          </div>
+        </div>
+        <div class="bio-text">
+          <h3>Привет, я Вадим 👋</h3>
+          <span class="bio-subtitle">✦ VibeDev — код с настроением</span>
+          <p>
+            Меня зовут Вадим, я веб-разработчик с 3-летним коммерческим опытом.
+            Специализируюсь на создании сайтов, Telegram-ботов и учебных проектов.
+            Люблю, когда код не только работает, но и выглядит эстетично.
+          </p>
+          <p>
+            Еще я увлекаюсь дизайном, создаю баннеры и логотипы. Помогаю студентам
+            с курсовыми и индивидуальными проектами — от идеи до защиты.
+          </p>
+          <div class="bio-tags">
+            <span>#WebDev</span>
+            <span>#Python</span>
+            <span>#TelegramBot</span>
+            <span>#Design</span>
+            <span>#HTML/CSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ЦИТАТА -->
+    <div class="quote-block">
+      <div class="quote-text">«Код — это поэзия, а поэзия должна быть красивой и понятной»</div>
+      <div class="quote-author">— Вадим, VibeDev</div>
+    </div>
+
+    <!-- НАВЫКИ -->
+    <div class="card">
+      <h2>Мои навыки</h2>
+      <div class="skills-grid-new">
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">Python</div>
+          <div class="skill-level-new">высокий</div>
+        </div>
+
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">HTML/CSS</div>
+          <div class="skill-level-new">высокий</div>
+        </div>
+
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">Figma</div>
+          <div class="skill-level-new">средний</div>
+        </div>
+
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v16H4z"/>
+              <line x1="8" y1="8" x2="16" y2="16"/>
+              <line x1="8" y1="16" x2="16" y2="8"/>
+              <line x1="4" y1="12" x2="20" y2="12"/>
+              <line x1="12" y1="4" x2="12" y2="20"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">Excel/Word</div>
+          <div class="skill-level-new">эксперт</div>
+        </div>
+
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="4"/>
+              <line x1="6" y1="9" x2="18" y2="9"/>
+              <line x1="6" y1="15" x2="18" y2="15"/>
+              <line x1="9" y1="9" x2="9" y2="20"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">Aiogram</div>
+          <div class="skill-level-new">средний</div>
+        </div>
+
+        <div class="skill-card-new">
+          <div class="skill-icon-new">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <div class="skill-name-new">Flask/Django</div>
+          <div class="skill-level-new">средний</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПУТЬ -->
+    <div class="card">
+      <h2>Мой путь</h2>
+      <div class="journey-timeline">
+        <div class="journey-item">
+          <div class="journey-year">2019</div>
+          <div class="journey-title">Начало пути</div>
+          <div class="journey-desc">Первые шаги в веб-разработке: HTML, CSS, базовый JavaScript.</div>
+        </div>
+        <div class="journey-item">
+          <div class="journey-year">2021</div>
+          <div class="journey-title">Переход к Python</div>
+          <div class="journey-desc">Освоение Python, создание первых Telegram-ботов и веб-приложений.</div>
+        </div>
+        <div class="journey-item">
+          <div class="journey-year">2023</div>
+          <div class="journey-title">Коммерческий опыт</div>
+          <div class="journey-desc">Работа над реальными проектами: сайты, боты, учебные работы.</div>
+        </div>
+        <div class="journey-item">
+          <div class="journey-year">2025</div>
+          <div class="journey-title">VibeDev</div>
+          <div class="journey-desc">Создание собственного бренда. Код с настроением и душой.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- РАБОТЫ / КЕЙСЫ -->
+    <div class="grid" style="margin-top:0;">
       <main>
         <section id="works" class="card">
           <h2>Работы и кейсы</h2>
@@ -113,8 +350,8 @@
       </aside>
     </div>
 
-    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:300;letter-spacing:0.02em">
-      <span style="font-family:var(--font-accent);font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
+    <footer style="margin-top:24px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--border);padding-top:24px;font-weight:400;letter-spacing:0.02em">
+      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;background:linear-gradient(135deg,var(--accent-2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">VibeDev</span> — код с настроением
     </footer>
   </div>
 
