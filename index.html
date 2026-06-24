@@ -14,14 +14,13 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/style.css">
   <style>
-    /* ... все стили остаются без изменений ... */
     .facts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
     .fact-card { background: rgba(255,255,255,0.02); border-radius: 16px; padding: 20px; border: 1px solid var(--border); text-align: center; transition: var(--transition); position: relative; overflow: hidden; }
     .fact-card::after { content: '{}'; position: absolute; bottom: -10px; right: -5px; font-family: 'JetBrains Mono', monospace; font-size: 48px; color: rgba(255,255,255,0.02); pointer-events: none; }
     .fact-card:hover { transform: translateY(-6px); border-color: rgba(96,165,250,0.15); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
     .fact-card .fact-number { font-family: 'Nunito', sans-serif; font-size: 42px; font-weight: 900; background: linear-gradient(135deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
     .fact-card .fact-label { font-size: 14px; color: var(--muted); font-weight: 400; margin-top: 6px; letter-spacing: 0.02em; }
-    .fact-card .fact-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+    .fact-card .fact-icon { font-size: 28px; margin-bottom: 8px; display: block; line-height: 1; }
 
     .bio-section { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; align-items: center; }
     .bio-avatar { display: flex; justify-content: center; align-items: center; position: relative; }
@@ -89,6 +88,26 @@
     @media(max-width: 600px) { .skills-grid-new { grid-template-columns: repeat(2, 1fr); gap: 12px; } .skill-card-new { min-height: 150px; padding: 16px 12px; } .skill-icon-new { width: 44px; height: 44px; } .skill-icon-new svg { width: 22px; height: 22px; } .skill-name-new { font-size: 14px; } .skill-level-new { font-size: 12px; } }
     @media(max-width: 480px) { .facts-grid { grid-template-columns: 1fr; } }
     @media(max-width: 400px) { .skills-grid-new { grid-template-columns: 1fr 1fr; gap: 10px; } .skill-card-new { min-height: 130px; padding: 12px 8px; } }
+/* Дополнительные мобильные стили для index.html */
+@media(max-width:600px){
+  .hero .large-visual{font-size:48px!important}
+  .hero h1{font-size:26px}
+  .hero p{font-size:13px}
+  
+  .quote-block .quote-text{font-size:16px}
+  .quote-block .quote-author{font-size:12px}
+  
+  .facts-grid .fact-card .fact-number{font-size:26px}
+  .facts-grid .fact-card .fact-label{font-size:11px}
+  .facts-grid .fact-card .fact-icon{font-size:20px}
+  
+  .bio-text .bio-subtitle{font-size:12px}
+  .bio-text .bio-tags span{font-size:10px;padding:2px 8px}
+  
+  .journey-timeline .journey-item .journey-year{font-size:11px}
+  .journey-timeline .journey-item .journey-title{font-size:13px}
+  .journey-timeline .journey-item .journey-desc{font-size:12px}
+}
   </style>
 </head>
 <body>
@@ -156,28 +175,33 @@
           <span class="vibedev-tag">✦ VibeDev</span>
         </div>
       </div>
-      <div class="large-visual center" style="font-size:96px;color:var(--accent)">⚡</div>
+      <div class="large-visual center" style="font-size:96px;color:var(--accent);line-height:1">
+        <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
     </section>
 
     <!-- ФАКТЫ -->
     <div class="facts-grid">
       <div class="fact-card">
-        <span class="fact-icon">🚀</span>
+        <span class="fact-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
         <div class="fact-number">16+</div>
         <div class="fact-label">Довольных клиентов</div>
       </div>
       <div class="fact-card">
-        <span class="fact-icon">⭐</span>
+        <span class="fact-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
         <div class="fact-number">5.0</div>
         <div class="fact-label">Средняя оценка</div>
       </div>
       <div class="fact-card">
-        <span class="fact-icon">📚</span>
+        <span class="fact-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
         <div class="fact-number">9+</div>
         <div class="fact-label">Защищенных работ</div>
       </div>
       <div class="fact-card">
-        <span class="fact-icon">🌍</span>
+        <span class="fact-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
         <div class="fact-number">100%</div>
         <div class="fact-label">Успешных проектов</div>
       </div>
@@ -192,7 +216,7 @@
           </div>
         </div>
         <div class="bio-text">
-          <h3>Привет, я Вадим 👋</h3>
+          <h3>Привет, я Вадим</h3>
           <span class="bio-subtitle">✦ VibeDev — код с настроением</span>
           <p>
             Меня зовут Вадим, я веб-разработчик с 3-летним коммерческим опытом.
@@ -261,11 +285,10 @@
         <div class="skill-card-new">
           <div class="skill-icon-new">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16v16H4z"/>
-              <line x1="8" y1="8" x2="16" y2="16"/>
-              <line x1="8" y1="16" x2="16" y2="8"/>
-              <line x1="4" y1="12" x2="20" y2="12"/>
-              <line x1="12" y1="4" x2="12" y2="20"/>
+              <rect x="2" y="2" width="20" height="20" rx="2"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="2" y1="10" x2="22" y2="10"/>
             </svg>
           </div>
           <div class="skill-name-new">Excel/Word</div>
